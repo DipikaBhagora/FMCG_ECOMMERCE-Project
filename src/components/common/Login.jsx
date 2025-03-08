@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import loginImage from "../../assets/images/undraw_access-account_aydp.png"; // Correct image import
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 export const Login = () => {
   const { register, handleSubmit } = useForm();
@@ -12,10 +13,38 @@ export const Login = () => {
   const submitHandler = async (data) => {
     try {
       const res = await axios.post("/user/login", data);
+      console.log("API Response: ",res.data);
 
       if (res.status === 200) {
-        alert("Login successful!");
-        navigate("/user");
+        // alert("Login successful!");
+        // navigate("/user");
+        localStorage.setItem("id",JSON.stringify(res.data.data._id))
+        localStorage.setItem("role", JSON.stringify(res.data.data.roleId.name));
+
+        toast('🌟login successfully!', {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+          onClose: () => {
+            setTimeout(() =>{
+              if(res.data.data.roleId.name === "CUSTOMER"){
+                  navigate("/user")
+                }
+                if(res.data.data.roleId.name === "ADMIN"){
+                  navigate("/user")
+                }
+                if(res.data.data.roleId.name === "VENDOR"){
+                  navigate("/vendor")
+                }
+            }, 500)
+          }
+        });
       } else {
         alert("Invalid credentials!");
       }
@@ -25,6 +54,20 @@ export const Login = () => {
   };
 
   return (
+    <>
+    <ToastContainer
+      position="top-center"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick={false}
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+      transition={Bounce}
+/>
     <div className="h-screen bg-gradient-to-r from-blue-300 via-blue-500 to-purple-600 flex justify-center items-center">
       <div className="max-w-4xl w-full bg-white shadow-lg rounded-lg flex overflow-hidden">
         
@@ -71,6 +114,7 @@ export const Login = () => {
 
       </div>
     </div>
+    </>
   );
 };
 

@@ -3,7 +3,8 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import signupImage from "../../assets/images/undraw_completed_0sqh.png"; // Correct image import
+import signupImage from "../../assets/images/undraw_completed_0sqh.png"; 
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 export const Signup = () => {
   const { register, handleSubmit } = useForm();
@@ -13,10 +14,31 @@ export const Signup = () => {
     try {
       data.roleId = "67cbdf40c98099e54f8e961c";
       const res = await axios.post("/user/signup", data);
+      console.log("API Response: ",res.data)
 
       if (res.status === 201) {
-        alert("User created successfully!");
-        navigate("/login");
+        // alert("User created successfully!");
+        // navigate("/login");
+        localStorage.setItem("id",JSON.stringify(res.data.data._id))
+        // localStorage.setItem("role", JSON.stringify(res.data.data.roleId.name));
+        
+                toast('🌟USER created successfully!', {
+                  position: "top-center",
+                  autoClose: 1000,
+                  hideProgressBar: false,
+                  closeOnClick: false,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "colored",
+                  transition: Bounce,
+                  onClose: () => {
+                    setTimeout(() =>{
+                      navigate("/login");
+                    }, 500)
+                  }
+                });
+        
       } else {
         alert("User not created!");
       }
@@ -26,6 +48,20 @@ export const Signup = () => {
   };
 
   return (
+    <>
+    <ToastContainer
+    position="top-center"
+    autoClose={3000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick={false}
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme="dark"
+    transition={Bounce}
+    />
     <div className="h-screen bg-gradient-to-r from-blue-300 via-blue-500 to-purple-600 flex justify-center items-center">
       <div className="max-w-4xl w-full bg-white shadow-lg rounded-lg flex overflow-hidden h-[80vh]">
         
@@ -98,6 +134,7 @@ export const Signup = () => {
       </div>
       </div>
     </div>
+    </>
   );
 };
 
