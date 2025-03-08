@@ -1,17 +1,37 @@
 import { UserSidebar } from './components/layouts/UserSidebar'
-import { Route,Routes } from 'react-router-dom'
+import { Route,Routes, useLocation } from 'react-router-dom'
 import { UserProfile } from './components/user/UserProfile'
 import './assets/adminlte.css'
 import './assets/adminlte.min.css'
 import { Signup } from './components/common/Signup'
 import { Login } from './components/common/Login'
+import axios from 'axios'
+import { useState, useEffect } from "react";
 
 function App() {
 
+  axios.defaults.baseURL = "http://localhost:3000";
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/login" || location.pathname === "/signup") {
+      document.body.className = ""; // Remove the unwanted class for login and signup
+    } else {
+      document.body.className =
+        "layout-fixed sidebar-expand-lg bg-body-tertiary sidebar-open app-loaded";
+    }
+  }, [location.pathname]);
+
   return (
 <>
-    <body className="layout-fixed sidebar-expand-lg bg-body-tertiary sidebar-open app-loaded">
-      <div className="app-wrapper">
+<div
+      className={
+        location.pathname === "/login" || location.pathname === "/signup"
+          ? ""
+          : "app-wrapper"
+      }
+    >
 
   <Routes>
 
@@ -24,7 +44,6 @@ function App() {
   </Routes>
 
     </div>
-    </body>
     </>
   )
 }
