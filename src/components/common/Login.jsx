@@ -18,7 +18,7 @@ export const Login = () => {
       if (res.status === 200) {
         // alert("Login successful!");
         // navigate("/user");
-        localStorage.setItem("id",JSON.stringify(res.data.data._id))
+        localStorage.setItem("id",res.data.data._id)
         localStorage.setItem("role", JSON.stringify(res.data.data.roleId.name));
 
         toast('🌟login successfully!', {

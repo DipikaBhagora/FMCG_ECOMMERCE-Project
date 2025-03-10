@@ -29,6 +29,12 @@ export const AddProduct = () => {
 const {register,handleSubmit} = useForm()
 
 const submitHandler = async(data) =>{
+    //console.log(data);
+    const sellerId = localStorage.getItem("id")
+    data.sellerId = sellerId;
+    //console.log(data)
+    const res =  await axios.post("/product/addproduct",data)
+    console.log(res.data)
 
 }
 
@@ -36,6 +42,38 @@ const submitHandler = async(data) =>{
     <div style={{textAlign:"center"}}>
         <h1>ADD PRODUCT</h1>
         <form onSubmit={handleSubmit(submitHandler)}>
+            <div>
+                <label>Product Name:</label>
+                <input type='text' {...register("productName")}></input>
+            </div>
+            <div>
+                <label>Base Price:</label>
+                <input type='Number' {...register("basePrice")}></input>
+            </div>
+            <div>
+                <label>Offer Price:</label>
+                <input type='NUmber' {...register("offerPrice")}></input>
+            </div>
+            <div>
+                <label>Offer Percentage:</label>
+                <input type='Number' {...register("offerPercentage")}></input>
+            </div>
+            <div>
+                <label>Product Detail:</label>
+                <input type='text' {...register("productDetail")}></input>
+            </div>
+            <div>
+                <label>Product Images:</label>
+                <input type='text' {...register("productImages")}></input>
+            </div>
+            <div>
+                <label>quantity:</label>
+                <input type='Number' {...register("quantity")}></input>
+            </div>
+            {/* <div>
+                <label></label>
+                <input type='' {...register("")}></input>
+            </div> */}
         <div>
             <label>Category: </label>
             <select {...register("categoryId")} onChange={(event)=>{getSubCategoryByCategoryId(event.target.value)}}> //id name from model table
@@ -55,6 +93,9 @@ const submitHandler = async(data) =>{
                     })
                 }
             </select>
+        </div>
+        <div>
+            <input type='submit'></input>
         </div>
         </form>
     </div>
