@@ -6,7 +6,12 @@ import './assets/adminlte.min.css'
 import { Signup } from './components/common/Signup'
 import { Login } from './components/common/Login'
 import axios from 'axios'
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { VendorSidebar } from './components/vendor/VendorSidebar'
+import { AddProduct } from './components/vendor/AddProduct'
+import PrivateRoutes from './hooks/PrivateRoutes'
+import { HomePage } from './components/common/HomePage'
+
 
 function App() {
 
@@ -35,11 +40,19 @@ function App() {
 
   <Routes>
 
-    <Route path='/login' element={<Login/>}></Route>
-    <Route path='/signup' element={<Signup/>}></Route>
+    <Route path='/login' element={<Login/>} />
+    <Route path='/signup' element={<Signup/>} />
+    <Route path='/' element={<HomePage/>}></Route>
 
+      <Route path='' element={<PrivateRoutes/>}>
     <Route path='/user' element={<UserSidebar/>}>
-    <Route path='profile' element={<UserProfile/>}></Route>
+    <Route path='profile' element={<UserProfile/>} />
+    </Route>
+
+    <Route path='/vendor' element={<VendorSidebar/>}>
+    <Route path='addproduct' element={<AddProduct/>} />
+    </Route>
+
     </Route>
   </Routes>
 
