@@ -34,7 +34,7 @@ const submitHandler = async(data) =>{
     data.sellerId = sellerId;
     //console.log(data)
     const res =  await axios.post("/product/addproduct",data)
-    console.log(res.data)
+    console.log(res)
 
 }
 
