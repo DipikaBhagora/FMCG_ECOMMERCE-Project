@@ -2,11 +2,22 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 export const AddProduct = () => {
  
     const [categories, setcategories] = useState([])
     const [subCategories, setsubCategories] = useState([])
+    
+
+    const {register,handleSubmit} = useForm();
+    const navigate = useNavigate();
+
+    useEffect(() =>{
+        getAllCategories();
+    },[])
+ 
+
     const getAllCategories = async() =>{
         const res = await axios.get("/category/getcategories")
         console.log(res.data)
@@ -21,27 +32,43 @@ export const AddProduct = () => {
             setsubCategories(res.data.data)
        
     }
-
-    useEffect(() =>{
-        getAllCategories()
-    },[])
- 
-const {register,handleSubmit} = useForm()
-
-const submitHandler = async(data) =>{
-    //console.log(data);
-    const sellerId = localStorage.getItem("id")
-    data.sellerId = sellerId;
-    //console.log(data)
-    const res =  await axios.post("/product/addproduct",data)
-    console.log(res)
-
-}
-
+    const submitHandler = async (data) => {
+        try {
+          const sellerId = localStorage.getItem("id");
+          data.sellerId = sellerId;
+      
+          const formData = new FormData();
+          formData.append("productName", data.productName);
+          formData.append("categoryId", data.categoryId);
+          formData.append("subCategoryId", data.subCategoryId);
+          formData.append("sellerId", data.sellerId);
+          formData.append("basePrice", data.basePrice);
+          formData.append("offerPrice", data.offerPrice);
+          formData.append("offerPercentage", data.offerPercentage);
+          formData.append("productDetail", data.productDetail);
+          formData.append("image", data.image[0]);
+          formData.append("quantity", data.quantity);
+      
+          const res = await axios.post("/product/addproductwithfile", formData);
+          
+          console.log("API Response:", res.data);
+      
+          if (res.data.message.includes("successfully")) {
+            alert("Product added successfully!");
+            navigate("/vendor/myproducts");
+          } else {
+            alert(`Error: ${res.data.message || "Failed to add product"}`);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert(`Something went wrong: ${error.response?.data?.message || error.message}`);
+        }
+      };
+      
     return (
     <div style={{textAlign:"center"}}>
         <h1>ADD PRODUCT</h1>
-        <form onSubmit={handleSubmit(submitHandler)}>
+        <form onSubmit={handleSubmit(submitHandler)} encType='multipart/form-data'>
             <div>
                 <label>Product Name:</label>
                 <input type='text' {...register("productName")}></input>
@@ -64,7 +91,7 @@ const submitHandler = async(data) =>{
             </div>
             <div>
                 <label>Product Images:</label>
-                <input type='text' {...register("productImages")}></input>
+                <input type='file' {...register("image")}></input>
             </div>
             <div>
                 <label>quantity:</label>

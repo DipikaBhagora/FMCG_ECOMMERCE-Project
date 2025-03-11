@@ -60,10 +60,10 @@ export const VendorSidebar = () => {
                 </Link>
                 <ul className="nav nav-treeview">
                   <li className="nav-item">
-                    <a href="./index.html" className="nav-link active">
+                    <Link to="myproducts" className="nav-link active">
                       <i className="nav-icon bi bi-circle" />
                       <p>VIEW MY PRODUCTS</p>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
