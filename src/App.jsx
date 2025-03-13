@@ -12,7 +12,7 @@ import { AddProduct } from './components/vendor/AddProduct'
 import PrivateRoutes from './hooks/PrivateRoutes'
 import { HomePage } from './components/common/HomePage'
 import { ViewMyProducts } from './components/vendor/ViewMyProducts'
-
+import { UpdateMyProduct } from './components/vendor/UpdateMyProduct'
 
 
 function App() {
@@ -54,6 +54,7 @@ function App() {
     <Route path='/vendor' element={<VendorSidebar/>}>
     <Route path='addproduct' element={<AddProduct/>} />
     <Route path='myproducts' element={<ViewMyProducts/>}></Route>
+    <Route path='updateproduct/:id' element={<UpdateMyProduct/>}></Route>
     </Route>
 
     </Route>
