@@ -18,6 +18,7 @@ export const ViewMyProducts = () => {
     }, [refresh])
 
   return (
+  
     <div className="container mt-5">
     <h2 className="text-center mb-4">MY PRODUCTS</h2>
     <div className="table-responsive">
@@ -45,33 +46,8 @@ export const ViewMyProducts = () => {
         </table>
     </div>
 </div>
-
-    // <div style={{textAlign:"center"}}>
-    //     MY PRODUCTS
-    //     <table className='table table-dark'>
-    //         <thead>
-    //             <tr>
-    //                 <th>Product Name</th>
-    //                 <th>IMAGE</th>
-    //                 <th>ACTION</th>
-    //             </tr>
-    //         </thead>
-    //         <tbody>
-    //             {
-    //                products?.map((product)=>{
-    //                 return<tr>
-    //                     <td>{product.productName}</td>
-    //                     <td>
-    //                         <img  style ={{height:100,width:100}}src={product?.productImages}></img>
-    //                     </td>
-    //                     <td>
-    //                         <Link to={`/vendor/updateproduct/${product._id}`} className = "btn btn-info">UPDATE</Link>
-    //                     </td>
-    //                 </tr>
-    //                }) 
-    //             }
-    //         </tbody>
-    //     </table>
-    // </div>
-  )
+)
 }
+
+
+  

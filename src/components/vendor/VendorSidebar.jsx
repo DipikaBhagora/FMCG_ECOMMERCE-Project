@@ -1,15 +1,25 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { VendorNavbar } from './VendorNavbar'
 import { Outlet } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
 export const VendorSidebar = () => {
+  //for closing sidebar
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    console.log("toggleSidebar");
+    setSidebarOpen(!isSidebarOpen);
+  };
+
   return (
    <>
-   <VendorNavbar></VendorNavbar>
+   <VendorNavbar toggleSidebar={toggleSidebar}></VendorNavbar>
    <aside
-        className="app-sidebar bg-body-secondary shadow"
-        data-bs-theme="dark"
+         className={`app-sidebar bg-body-secondary shadow ${
+          isSidebarOpen ? "open" : "d-none"
+        }`}
+        data-bs-theme = "dark"
       >
         <div className="sidebar-brand">
           
@@ -68,16 +78,16 @@ export const VendorSidebar = () => {
                 </ul>
               </li>
               <li className="nav-item">
-                <a href="./generate/theme.html" className="nav-link">
+                <Link to="profile" className="nav-link">
                   <i className="nav-icon bi bi-palette" />
-                  <p>Theme Generate</p>
-                </a>
+                  <p>Profile</p>
+                </Link>
               </li>
               <li className="nav-item">
                 <a href="#" className="nav-link">
                   <i className="nav-icon bi bi-box-seam-fill" />
                   <p>
-                    Widgets
+                    
                     <i className="nav-arrow bi bi-chevron-right" />
                   </p>
                 </a>

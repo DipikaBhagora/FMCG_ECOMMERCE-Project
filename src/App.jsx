@@ -13,6 +13,11 @@ import PrivateRoutes from './hooks/PrivateRoutes'
 import { HomePage } from './components/common/HomePage'
 import { ViewMyProducts } from './components/vendor/ViewMyProducts'
 import { UpdateMyProduct } from './components/vendor/UpdateMyProduct'
+import { Shop } from './components/common/Shop'
+import { UserAddress } from './components/user/UserAddress'
+import { Cart } from './components/user/Cart'
+import { UpdateUserAddress } from './components/user/UpdateUserAddress'
+import { ViewUserAddress } from './components/user/ViewUserAddress'
 
 
 function App() {
@@ -45,16 +50,24 @@ function App() {
     <Route path='/login' element={<Login/>} />
     <Route path='/signup' element={<Signup/>} />
     <Route path='/' element={<HomePage/>}></Route>
+    <Route path='/shop' element={<Shop/>}></Route>
+    <Route path='/cart' element={<Cart/>}></Route>
 
       <Route path='' element={<PrivateRoutes/>}>
     <Route path='/user' element={<UserSidebar/>}>
-    <Route path='profile' element={<UserProfile/>} />
+    <Route path='profile' element={<UserProfile/>} ></Route>
+    <Route path='address' element={<UserAddress/>} />
+    <Route path='updateaddress/:id' element={<UpdateUserAddress/>}/>
+    <Route path='viewaddress' element={<ViewUserAddress/>}/>
+
     </Route>
 
     <Route path='/vendor' element={<VendorSidebar/>}>
     <Route path='addproduct' element={<AddProduct/>} />
     <Route path='myproducts' element={<ViewMyProducts/>}></Route>
     <Route path='updateproduct/:id' element={<UpdateMyProduct/>}></Route>
+    <Route path='profile' element={<UserProfile/>}/>
+   
     </Route>
 
     </Route>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaSearch, FaTags } from "react-icons/fa";
+import { FaShoppingCart, FaSearch, FaTags, FaUser } from "react-icons/fa";
 
 export const HomePage = () => {
   return (
@@ -18,6 +18,9 @@ export const HomePage = () => {
         <Link to="/cart" className="text-green-600">
           <FaShoppingCart size={28} />
         </Link>
+        <Link to="/user/profile" className="text-green-600">
+            <FaUser size={28} />
+          </Link>
       </div>
     </nav>
 
