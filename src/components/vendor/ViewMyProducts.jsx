@@ -8,10 +8,24 @@ export const ViewMyProducts = () => {
     const [refresh, setrefresh] = useState(false);
     
         const getMyAllProducts = async() =>{
+        try{
         const res = await axios.get("/product/getproductsbyuserid/"+localStorage.getItem("id"));
         console.log(res.data); //api res
         setproducts(res.data.data);
+        }catch (error) {
+            console.error("Error fetching products:", error);
+        }
+
     }
+    // const addToShop = async (productId) => {
+    //     try {
+    //         await axios.post("/product/addproduct", { productId }); // Replace with actual API endpoint
+    //         alert("Product added to shop successfully");
+    //         setRefresh(!refresh);
+    //     } catch (error) {
+    //         console.error("Error adding product to shop:", error);
+    //     }
+    // };
 
     useEffect(() =>{
         getMyAllProducts();
@@ -27,7 +41,7 @@ export const ViewMyProducts = () => {
                 <tr>
                     <th>Product Name</th>
                     <th>Image</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +53,7 @@ export const ViewMyProducts = () => {
                         </td>
                         <td className="align-middle">
                             <Link to={`/vendor/updateproduct/${product._id}`} className="btn btn-info">UPDATE</Link>
+                            {/* <button onClick={() => addToShop(product._id)} className="btn btn-success">ADD TO SHOP</button> */}
                         </td>
                     </tr>
                 ))}

@@ -18,6 +18,7 @@ import { UserAddress } from './components/user/UserAddress'
 import { Cart } from './components/user/Cart'
 import { UpdateUserAddress } from './components/user/UpdateUserAddress'
 import { ViewUserAddress } from './components/user/ViewUserAddress'
+import { SubCategories } from './components/items/SubCategories'
 
 
 function App() {
@@ -52,8 +53,10 @@ function App() {
     <Route path='/' element={<HomePage/>}></Route>
     <Route path='/shop' element={<Shop/>}></Route>
     <Route path='/cart' element={<Cart/>}></Route>
+    <Route path='/subcategory/:categoryId' element={<SubCategories/>}/>
+    
 
-      <Route path='' element={<PrivateRoutes/>}>
+    <Route path='' element={<PrivateRoutes/>}>
     <Route path='/user' element={<UserSidebar/>}>
     <Route path='profile' element={<UserProfile/>} ></Route>
     <Route path='address' element={<UserAddress/>} />

@@ -13,7 +13,7 @@ export const UserSidebar = () => {
 
   // Inline styles for the sidebar container
   const sidebarStyle = {
-    width: "250px",
+    width: "230px",
     transition: "all 0.3s ease",
     backgroundColor: "#343a40", // dark background for a modern look
     color: "#fff",
