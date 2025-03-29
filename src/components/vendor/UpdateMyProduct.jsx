@@ -58,60 +58,6 @@ export const UpdateMyProduct = () => {
         navigate("/vendor/myproducts");
     }
 
-    // const {id} = useParams(); //get product id from url
-
-    // const [categories, setcategories] = useState([])
-    // const [subCategories, setsubCategories] = useState([])
-    // const navigate = useNavigate();
-
-    // const { register, handleSubmit, setValue, reset } = useForm();
-
-    // useEffect(() =>{
-    //     getAllCategories();
-    //     fetchProduct();
-    // },[id])
- 
-
-    // const getAllCategories = async() =>{
-    //     const res = await axios.get("/category/getcategories")
-    //     console.log(res.data)
-    //     setcategories(res.data.data)
-    // }
-
-    // const getSubCategoryByCategoryId = async(id) =>{
-    //    //alert(id);
-    //    //api calling
-    //         const res = await axios.get("/subcategory/getsubcategorybycategory/"+id)
-    //         console.log("Sub category response: ",res.data)
-    //         setsubCategories(res.data.data)
-       
-    // }
-
-    // const fetchProduct = async() => {
-    //     const res = await axios.get(`/product/getproductbyid/${id}`);
-    //     if(res.data && res.data.data) {
-    //         reset(res.data.data);
-    //         setValue("categoryId", res.data.data.categoryId);
-    //         setValue("subCategoryId", res.data.data.subCategoryId);
-    //         getSubCategoryByCategoryId(res.data.data.categoryId);
-    //     }
-    // }
-
-    // const submitHandler = async (data) => {
-    //     data.userId = localStorage.getItem("id");
-    //     delete data._id;
-
-    //     try {
-    //         await axios.put(`/product/updateproduct/${id}`, data);
-    //         alert("Product updated successfully!");
-    //         navigate("/vendor/myproducts");
-    //         window.location.reload(); // Force update on navigation
-    //     } catch (error) {
-    //         console.error("Error updating product:", error);
-    //         alert("Failed to update product. Try again!");
-    //     }
-    // };
-
   return (
     <div className="container mt-5">
     <div className="row justify-content-center">

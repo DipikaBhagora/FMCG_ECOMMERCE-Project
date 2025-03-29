@@ -45,29 +45,29 @@ export const SubCategories = () => {
   return (
     <div className="bg-gray-100 w-full min-h-screen">
       {/* Navbar */}
-      <nav className="bg-white shadow-md py-4 px-10 flex justify-between items-center w-full fixed top-0 left-0 z-50">
-        <h1 className="text-3xl font-bold text-green-600">FMCG Hub</h1>
+      <nav className="bg-white shadow-md py-3 px-6 flex justify-between items-center max-w-screen-3xl mx-auto w-full ">
+        <h1 className="text-2xl font-bold text-green-600">FMCG Hub</h1>
         <Link to="/" className="text-green-600 flex items-center gap-2 text-lg font-semibold hover:text-green-700">
-          <FaHome /> Home
+          <FaHome  size={25}/> 
         </Link>
       </nav>
 
       {/* Header Section */}
-      <section className="bg-green-700 text-white py-14 px-6 text-center mt-16">
-        <h2 className="text-5xl font-bold">Explore {categoryName}</h2>
+      <section className="bg-green-700 text-white py-14 px-6 text-center mt-0">
+        <h2 className="text-4xl font-bold">Explore {categoryName}</h2>
       </section>
 
       {/* Subcategories Section */}
       <div className="pt-10 pb-16 w-full">
         <div className="max-w-[1200px] w-full mx-auto px-6">
-          <h3 className="text-center mb-6 font-bold text-4xl">Subcategories</h3>
+          {/* <h3 className="text-center mb-6 font-bold text-4xl">Subcategories</h3> */}
 
           {subcategories.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
               {subcategories.map((subcategory) => (
                 <Link
                   key={subcategory._id}
-                  to={`/getsubcategory/${subcategory._id}`} 
+                  to={`/subcategory/${subcategory._id}/products`} 
                   className="bg-white p-6 rounded-lg shadow hover:shadow-xl transition-all text-center flex flex-col items-center"
                 >
                   <FaTags className="text-green-600 text-5xl mb-4" />

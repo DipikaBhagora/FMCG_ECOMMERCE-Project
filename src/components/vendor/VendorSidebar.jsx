@@ -1,124 +1,69 @@
-import React, {useState} from 'react'
-import { VendorNavbar } from './VendorNavbar'
-import { Outlet } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+import { Outlet, Link } from "react-router-dom";
+import { FaBox, FaShoppingCart, FaUser, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 export const VendorSidebar = () => {
-  //for closing sidebar
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
-    console.log("toggleSidebar");
     setSidebarOpen(!isSidebarOpen);
   };
 
   return (
-   <>
-   <VendorNavbar toggleSidebar={toggleSidebar}></VendorNavbar>
-   <aside
-         className={`app-sidebar bg-body-secondary shadow ${
-          isSidebarOpen ? "open" : "d-none"
+    <div className="flex">
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 h-full bg-gray-900 text-white shadow-lg transition-all duration-300 ${
+          isSidebarOpen ? "w-64" : "w-16"
         }`}
-        data-bs-theme = "dark"
       >
-        <div className="sidebar-brand">
-          
-          <a href="./index.html" className="brand-link">
-            
-            <img
-              src="../../dist/assets/img/AdminLTELogo.png"
-              alt="AdminLTE Logo"
-              className="brand-image opacity-75 shadow"
-            />
-            
-            <span className="brand-text fw-light">AdminLTE 4</span>
-            
-          </a>
-          
+        {/* Sidebar Header */}
+        <div className="flex justify-between items-center p-4">
+          {isSidebarOpen && <h2 className="text-lg font-bold">VENDOR</h2>}
+          <button onClick={toggleSidebar} className="text-white">
+            {isSidebarOpen ? <FaAngleLeft /> : <FaAngleRight />}
+          </button>
         </div>
 
-        <div
-          className=""
-          data-overlayscrollbars-viewport="scrollbarHidden overflowXHidden overflowYScroll"
-          tabIndex={-1}
-          style={{
-            marginRight: "-16px",
-            marginBottom: "-16px",
-            marginLeft: 0,
-            top: "-8px",
-            right: "auto",
-            left: "-8px",
-            width: "calc(100% + 16px)",
-            padding: 8,
-          }}
-        >
-          <nav className="mt-2">
-            
-            <ul
-              className="nav sidebar-menu flex-column"
-              data-lte-toggle="treeview"
-              role="menu"
-              data-accordion="false"
-            >
-              <li className="nav-item menu-open">
-                <Link  to="addproduct" className="nav-link active">
-                  <i className="nav-icon bi bi-speedometer" />
-                  <p>
-                    ADD PRODUCT
-                    <i className="nav-arrow bi bi-chevron-right" />
-                  </p>
-                </Link>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <Link to="myproducts" className="nav-link active">
-                      <i className="nav-icon bi bi-circle" />
-                      <p>VIEW MY PRODUCTS</p>
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <Link to="profile" className="nav-link">
-                  <i className="nav-icon bi bi-palette" />
-                  <p>Profile</p>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a href="#" className="nav-link">
-                  <i className="nav-icon bi bi-box-seam-fill" />
-                  <p>
-                    
-                    <i className="nav-arrow bi bi-chevron-right" />
-                  </p>
-                </a>
-                <ul className="nav nav-treeview">
-                  <li className="nav-item">
-                    <a href="./widgets/small-box.html" className="nav-link">
-                      <i className="nav-icon bi bi-circle" />
-                      <p>Small Box</p>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a href="./widgets/info-box.html" className="nav-link">
-                      <i className="nav-icon bi bi-circle" />
-                      <p>info Box</p>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a href="./widgets/cards.html" className="nav-link">
-                      <i className="nav-icon bi bi-circle" />
-                      <p>Cards</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        {/* Sidebar Links */}
+        <nav className="p-2">
+          <ul className="space-y-2">
+            <li>
+              <Link
+                to="addproduct"
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700"
+              >
+                <FaShoppingCart />
+                {isSidebarOpen && "Add Product"}
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="myproducts"
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700"
+              >
+                <FaBox />
+                {isSidebarOpen && "My Products"}
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="profile"
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700"
+              >
+                <FaUser />
+                {isSidebarOpen && "Profile"}
+              </Link>
+            </li>
+          </ul>
+        </nav>
       </aside>
-      <main class="app-main">
-        <Outlet></Outlet>
+
+      {/* Main Content Area */}
+      <main className={`flex-1 p-6 transition-all duration-300 ${isSidebarOpen ? "ml-64" : "ml-16"}`}>
+        <Outlet />
       </main>
-   </>
-  )
-}
+    </div>
+  );
+};
+

@@ -1,8 +1,8 @@
 import { UserSidebar } from './components/layouts/UserSidebar'
 import { Route,Routes, useLocation } from 'react-router-dom'
 import { UserProfile } from './components/user/UserProfile'
-import './assets/adminlte.css'
-import './assets/adminlte.min.css'
+// import './assets/adminlte.css'
+// import './assets/adminlte.min.css'
 import { Signup } from './components/common/Signup'
 import { Login } from './components/common/Login'
 import axios from 'axios'
@@ -19,6 +19,7 @@ import { Cart } from './components/user/Cart'
 import { UpdateUserAddress } from './components/user/UpdateUserAddress'
 import { ViewUserAddress } from './components/user/ViewUserAddress'
 import { SubCategories } from './components/items/SubCategories'
+import { SubCategoryProducts } from './components/items/SubCategoryProducts'
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
     <Route path='/shop' element={<Shop/>}></Route>
     <Route path='/cart' element={<Cart/>}></Route>
     <Route path='/subcategory/:categoryId' element={<SubCategories/>}/>
+    <Route path='/subcategory/:subCategoryId/products' element={<SubCategoryProducts/>}/>
     
 
     <Route path='' element={<PrivateRoutes/>}>
@@ -64,8 +66,8 @@ function App() {
     <Route path='viewaddress' element={<ViewUserAddress/>}/>
 
     </Route>
-
-    <Route path='/vendor' element={<VendorSidebar/>}>
+      
+    <Route path='/vendor' element={<VendorSidebar/>}> 
     <Route path='addproduct' element={<AddProduct/>} />
     <Route path='myproducts' element={<ViewMyProducts/>}></Route>
     <Route path='updateproduct/:id' element={<UpdateMyProduct/>}></Route>

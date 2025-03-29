@@ -1,77 +1,32 @@
-import React from 'react';
-import hamburgermenu from '../../assets/images/hamburgermenu.png';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { FaBars } from "react-icons/fa";
 
 export const VendorNavbar = ({ toggleSidebar }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear stored authentication data
-    localStorage.removeItem('token');
-    localStorage.removeItem('id');
-    localStorage.removeItem('user');
-    sessionStorage.clear();
-
-    // Redirect to login page
-    navigate('/login');
+    localStorage.clear();
+    navigate("/login");
   };
 
   return (
-    <nav className="app-header navbar navbar-expand bg-body">
-      {/* begin::Container */}
-      <div className="container-fluid">
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <a
-              className="nav-link btn btn-light"
-              href="#"
-              role="button"
-              style={{
-                color: "black",
-                padding: "5px 10px",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-              }}
-              onClick={toggleSidebar}
-            >
-              <img
-                src={hamburgermenu}
-                style={{ height: "25px", width: "25px" }}
-                alt="Menu"
-              />
-            </a>
-          </li>
-          <li className="nav-item d-none d-md-block">
-            <a href="#" className="nav-link">
-              Home
-            </a>
-          </li>
-          <li className="nav-item d-none d-md-block">
-            <a href="#" className="nav-link">
-              Contact
-            </a>
-          </li>
-        </ul>
+    <nav className="bg-white shadow-md p-4 flex items-center justify-between fixed w-full top-0 left-0 z-50">
+      {/* Menu Button */}
+      <button onClick={toggleSidebar} className="text-gray-700">
+        <FaBars size={24} />
+      </button>
 
-        <ul className="navbar-nav ms-auto">
-          <li className="nav-item">
-            <a
-              className="nav-link"
-              data-widget="navbar-search"
-              href="#"
-              role="button"
-            >
-              <i className="bi bi-search" />
-            </a>
-          </li>
-
-          <li className="nav-item">
-            <button className="btn btn-danger" onClick={handleLogout}>
-              LOGOUT
-            </button>
-          </li>
-        </ul>
+      {/* Navbar Links */}
+      <div className="hidden md:flex space-x-4">
+        <a href="#" className="text-gray-700">Home</a>
+        <a href="#" className="text-gray-700">Contact</a>
       </div>
+
+      {/* Logout Button */}
+      <button className="bg-red-500 text-white px-4 py-2 rounded" onClick={handleLogout}>
+        LOGOUT
+      </button>
     </nav>
   );
 };

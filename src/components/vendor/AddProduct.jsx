@@ -8,9 +8,11 @@ export const AddProduct = () => {
  
     const [categories, setcategories] = useState([])
     const [subCategories, setsubCategories] = useState([])
-    
+    const [basePrice, setBasePrice] = useState("");
+    const [offerPrice, setOfferPrice] = useState("");
+    const [offerPercentage, setOfferPercentage] = useState(0);
 
-    const {register,handleSubmit} = useForm();
+    const {register,handleSubmit, setValue} = useForm();
     const navigate = useNavigate();
 
     useEffect(() =>{
@@ -32,10 +34,21 @@ export const AddProduct = () => {
             setsubCategories(res.data.data)
        
     }
+     // Function to calculate offer percentage
+     useEffect(() => {
+        if (basePrice && offerPrice) {
+            const percentage = ((basePrice - offerPrice) / basePrice) * 100;
+            setOfferPercentage(percentage.toFixed(2)); // Keeping 2 decimal places
+            setValue("offerPercentage", percentage.toFixed(2)); // Set in form data
+        }
+    }, [basePrice, offerPrice, setValue]);
+
     const submitHandler = async (data) => {
         try {
           const userId = localStorage.getItem("id");
           data.userId = userId;
+          data.offerPercentage = offerPercentage; // Use dynamically calculated value
+
       
           const formData = new FormData();
           formData.append("productName", data.productName);
@@ -55,7 +68,7 @@ export const AddProduct = () => {
       
           if (res.data.message.includes("successfully")) {
             alert("Product added successfully!");
-            navigate("/vendor/myproducts");
+            //navigate("/vendor/myproducts");
           } else {
             alert(`Error: ${res.data.message || "Failed to add product"}`);
           }
@@ -78,15 +91,37 @@ export const AddProduct = () => {
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Base Price:</label>
-                        <input type='Number' className="form-control" {...register("basePrice")} />
+                        {/* <input type='Number' className="form-control" {...register("basePrice")} /> */}
+                        <input 
+                                    type='number' 
+                                    className="form-control" 
+                                    {...register("basePrice")} 
+                                    value={basePrice}
+                                    onChange={(e) => setBasePrice(e.target.value)}
+                                    required 
+                                />
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Offer Price:</label>
-                        <input type='Number' className="form-control" {...register("offerPrice")} />
+                        {/* <input type='Number' className="form-control" {...register("offerPrice")} /> */}
+                        <input 
+                                    type='number' 
+                                    className="form-control" 
+                                    {...register("offerPrice")} 
+                                    value={offerPrice}
+                                    onChange={(e) => setOfferPrice(e.target.value)}
+                                    required 
+                                />
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Offer Percentage:</label>
-                        <input type='Number' className="form-control" {...register("offerPercentage")} />
+                        {/* <input type='Number' className="form-control" {...register("offerPercentage")} /> */}
+                        <input 
+                                    type='text' 
+                                    className="form-control" 
+                                    value={offerPercentage} 
+                                    disabled 
+                                />
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Product Detail:</label>
@@ -98,7 +133,7 @@ export const AddProduct = () => {
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Quantity:</label>
-                        <input type='Number' className="form-control" {...register("quantity")} />
+                        <input type='text' className="form-control" {...register("quantity")} />
                     </div>
                     <div className="mb-3">
                         <label className="form-label">Category:</label>
