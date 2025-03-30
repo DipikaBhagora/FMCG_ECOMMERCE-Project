@@ -26,7 +26,7 @@ export const ViewMyProducts = () => {
 
     // Handle product deletion
     const handleDelete = async (productId) => {
-        if (!window.confirm("Are you sure you want to delete this product?")) return;
+        //if (!window.confirm("Are you sure you want to delete this product?")) return;
 
         setIsDeleting(productId);
         try {

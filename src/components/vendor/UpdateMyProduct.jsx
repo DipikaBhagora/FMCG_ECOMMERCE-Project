@@ -63,7 +63,7 @@ export const UpdateMyProduct = () => {
     <div className="row justify-content-center">
         <div className="col-md-8">
             <div className="card p-4 shadow">
-                <h2 className="text-center mb-4">UPDATE PRODUCT</h2>
+                <h2 className="text-center mb-4 fw-bold text-3xl">UPDATE PRODUCT</h2>
                 <form onSubmit={handleSubmit(submitHandler)} encType='multipart/form-data'>
                     <div className="mb-3">
                         <label className="form-label">Product Name:</label>

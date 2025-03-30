@@ -93,7 +93,7 @@ export const UpdateUserAddress = () => {
       <div className="row justify-content-center">
         <div className="col-md-8">
           <div className="card p-4 shadow">
-            <h2 className="text-center mb-4">Update Address</h2>
+            <h2 className="text-center mb-4 fw-bold text-3xl">Update Address</h2>
             <form onSubmit={handleSubmit(submitHandler)}>
               <div className="mb-3">
                 <label className="form-label">Title:</label>

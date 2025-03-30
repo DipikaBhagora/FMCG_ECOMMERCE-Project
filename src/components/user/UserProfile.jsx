@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { FaUserCircle, FaEnvelope, FaUserTag } from "react-icons/fa";
+import { FaUserCircle, FaEnvelope, FaUserTag, FaSignOutAlt } from "react-icons/fa";
 
 export const UserProfile = () => {
     const [user, setUser] = useState(null);
@@ -24,7 +24,6 @@ export const UserProfile = () => {
                     email: res.data.data.email,
                     role: res.data.data.roleId?.name || "Not Assigned"
                 });
-
             } catch (error) {
                 console.error("Error fetching user profile:", error);
             } finally {
@@ -35,7 +34,6 @@ export const UserProfile = () => {
         fetchUserProfile();
     }, []);
 
-    // Role badge colors
     const roleColors = {
         ADMIN: "bg-red-500",
         CUSTOMER: "bg-blue-500",
@@ -43,13 +41,17 @@ export const UserProfile = () => {
         DEFAULT: "bg-gray-500"
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem("id");
+        window.location.href = "/login";
+    };
+
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-            <div className="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-lg border border-gray-300">
-                {/* Profile Icon & Title */}
-                <div className="flex flex-col items-center mb-6">
-                    <FaUserCircle className="text-gray-700 text-7xl mb-3" />
-                    <h2 className="text-3xl font-bold text-gray-900">User Profile</h2>
+            <div className="bg-white shadow-md rounded-xl p-6 w-full max-w-sm border border-gray-300">
+                <div className="flex flex-col items-center mb-4">
+                    <FaUserCircle className="text-gray-700 text-5xl mb-2" />
+                    <h2 className="text-xl font-bold text-gray-900">User Profile</h2>
                 </div>
 
                 {loading ? (
@@ -57,30 +59,32 @@ export const UserProfile = () => {
                 ) : !user ? (
                     <p className="text-center text-red-500">User not found</p>
                 ) : (
-                    <div className="space-y-5">
-                        {/* Name */}
-                        <div className="flex items-center space-x-4 bg-gray-100 p-4 rounded-lg shadow-md">
-                            <FaUserCircle className="text-gray-600 text-xl" />
-                            <p className="text-gray-800 text-lg font-semibold">{user.name}</p>
+                    <div className="space-y-3">
+                        <div className="flex items-center space-x-3 bg-gray-100 p-3 rounded-md shadow-sm">
+                            <FaUserCircle className="text-gray-600 text-lg" />
+                            <p className="text-gray-800 text-sm font-semibold">{user.name}</p>
+                        </div>
+                        
+                        <div className="flex items-center space-x-3 bg-gray-100 p-3 rounded-md shadow-sm">
+                            <FaEnvelope className="text-gray-600 text-lg" />
+                            <p className="text-gray-800 text-sm font-semibold">{user.email}</p>
                         </div>
 
-                        {/* Email */}
-                        <div className="flex items-center space-x-4 bg-gray-100 p-4 rounded-lg shadow-md">
-                            <FaEnvelope className="text-gray-600 text-xl" />
-                            <p className="text-gray-800 text-lg font-semibold">{user.email}</p>
-                        </div>
-
-                        {/* Role */}
-                        <div className="flex items-center space-x-4 bg-gray-100 p-4 rounded-lg shadow-md justify-center">
-                            <FaUserTag className="text-gray-600 text-xl" />
-                            <span className={`px-6 py-2 text-white text-sm font-semibold rounded-full ${roleColors[user.role] || roleColors.DEFAULT}`}>
+                        <div className="flex items-center space-x-3 bg-gray-100 p-3 rounded-md shadow-sm justify-center">
+                            <FaUserTag className="text-gray-600 text-lg" />
+                            <span className={`px-4 py-1 text-white text-xs font-semibold rounded-full ${roleColors[user.role] || roleColors.DEFAULT}`}>
                                 {user.role}
                             </span>
                         </div>
                     </div>
                 )}
+                
+                <button 
+                    onClick={handleLogout} 
+                    className="mt-4 flex items-center justify-center w-full bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition">
+                    <FaSignOutAlt className="mr-2" /> Logout
+                </button>
             </div>
         </div>
     );
 };
-

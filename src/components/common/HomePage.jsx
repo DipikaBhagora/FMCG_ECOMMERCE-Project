@@ -55,8 +55,35 @@ const ProductCard = ({ product }) => {
 };
 
 export const HomePage = () => {
+
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
+  const [role, setRole] = useState(null);
+
+  
+  // Retrieve role from localStorage and update state
+  useEffect(() => {
+    const storedRole = localStorage.getItem("role");
+    if (storedRole) {
+      setRole(JSON.parse(storedRole)); // Parse stored role properly
+    }
+  }, []);
+
+  // Function to get the profile path based on role
+  const getProfilePath = (role) => {
+    console.log("Role from localStorage:", role); // Debugging role retrieval
+    switch (role?.toUpperCase()) {
+      case "CUSTOMER":
+        return "/user/profile";
+      case "ADMIN":
+        return "/admin/profile";
+      case "VENDOR":
+        return "/vendor/profile";
+      default:
+        return "/login"; // Redirect to login if role is not found
+    }
+  };
+
 
   useEffect(() => {
     fetchCategories();
@@ -98,9 +125,9 @@ export const HomePage = () => {
           <Link to="/cart" className="text-green-600 hover:text-green-700">
             <FaShoppingCart size={22} />
           </Link>
-          <Link to="/user/profile" className="text-green-600 hover:text-green-700">
+           <Link to={role ? getProfilePath(role) : "/login" } className="text-green-600 hover:text-green-700">
             <FaUser size={22} />
-          </Link>
+          </Link>     
         </div>
       </nav>
 

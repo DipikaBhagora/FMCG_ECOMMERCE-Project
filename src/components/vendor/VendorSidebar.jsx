@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
-import { FaBox, FaShoppingCart, FaUser, FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { VendorNavbar } from "./VendorNavbar";
+import { FaBox, FaShoppingCart, FaUser, FaAngleLeft, FaAngleRight, FaHome } from "react-icons/fa";
 
 export const VendorSidebar = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -18,16 +19,26 @@ export const VendorSidebar = () => {
         }`}
       >
         {/* Sidebar Header */}
-        <div className="flex justify-between items-center p-4">
-          {isSidebarOpen && <h2 className="text-lg font-bold">VENDOR</h2>}
-          <button onClick={toggleSidebar} className="text-white">
+        {/* <div className="flex justify-between items-center p-4"> */}
+        <div className="flex flex-col p-3.5 border-b border-gray-600">
+          {isSidebarOpen && <h2 className="text-lg font-bold">VENDOR  Dashboard</h2>}
+          {/* <button onClick={toggleSidebar} className="text-white">
             {isSidebarOpen ? <FaAngleLeft /> : <FaAngleRight />}
-          </button>
+          </button> */}
         </div>
 
         {/* Sidebar Links */}
-        <nav className="p-2">
+        <nav className="p-2 mt-4">
           <ul className="space-y-2">
+          <li>
+              <Link
+                to="/"
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700"
+              >
+                <FaHome />
+                {isSidebarOpen && "FMCG Home"}
+              </Link>
+            </li>
             <li>
               <Link
                 to="addproduct"
@@ -60,9 +71,14 @@ export const VendorSidebar = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className={`flex-1 p-6 transition-all duration-300 ${isSidebarOpen ? "ml-64" : "ml-16"}`}>
-        <Outlet />
+      {/* <main className={`flex-1 p-6 transition-all duration-300 ${isSidebarOpen ? "ml-64" : "ml-16"}`}>
+        <Outlet /> */}
+        <div className={`flex-1 transition-all duration-300 ${isSidebarOpen ? "pl-64" : "pl-0"}`}>
+                <VendorNavbar toggleSidebar={toggleSidebar} />
+                <main className="p-6">
+                  <Outlet />
       </main>
+    </div>
     </div>
   );
 };

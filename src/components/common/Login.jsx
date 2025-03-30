@@ -34,7 +34,8 @@ export const Login = () => {
           onClose: () => {
             setTimeout(() =>{
               if(res.data.data.roleId.name === "CUSTOMER"){
-                  navigate("/user")
+                  // navigate("/user")
+                  navigate("/")
                 }
                 if(res.data.data.roleId.name === "ADMIN"){
                   navigate("/user")

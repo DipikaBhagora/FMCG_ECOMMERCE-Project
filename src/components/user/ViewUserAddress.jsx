@@ -33,7 +33,7 @@ export const ViewUserAddress = () => {
       <div className="row justify-content-center">
         <div className="col-md-8">
           <div className="card p-4 shadow">
-            <h2 className="text-center mb-4">User Address</h2>
+            <h2 className="text-center mb-4 fw-bold text-3xl">User Address</h2>
 
             {userAddress ? (
               <div className="mb-3">
@@ -59,11 +59,12 @@ export const ViewUserAddress = () => {
                 if (userAddress && userAddress._id) {
                   navigate(`/user/updateaddress/${userAddress._id}`);
                 } else {
-                  navigate("/user/addaddress");
+                  navigate("/user/address");
                 }
               }}
             >
-              {userAddress ? "✏️ Edit Address" : "➕ Add Address"}
+             {userAddress ? "✏️ Edit Address" : "➕ Add Address"}
+              
             </button>
           </div>
         </div>
