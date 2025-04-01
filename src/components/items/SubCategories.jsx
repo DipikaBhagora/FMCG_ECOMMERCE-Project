@@ -72,7 +72,7 @@ export const SubCategories = () => {
                   to={`/subcategory/${subcategory._id}/products`} 
                   className="bg-white p-6 rounded-lg shadow hover:shadow-xl transition-all text-center flex flex-col items-center"
                 >
-                  <FaTags className="text-blue-900 text-5xl mb-4" />
+                  <FaTags className="text-blue-900 text-4xl mb-4" />
                   <span className="text-xl font-semibold">{subcategory.name}</span>
                 </Link>
               ))}

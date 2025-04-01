@@ -156,7 +156,7 @@ export const HomePage = () => {
               className="w-full h-40 object-cover rounded-md mb-3"
             />
             <h3 className="text-lg font-semibold text-ellipsis overflow-hidden whitespace-nowrap mb-2">{product.productName}</h3>
-            <p className="text-gray-500 mb-2">₹{product.offerPrice}</p>
+            <p className="text-pink-700 font-bold mb-2">₹{product.offerPrice}</p>
             <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mt-auto">
               Add to cart
             </button>

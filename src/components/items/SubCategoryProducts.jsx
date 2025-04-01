@@ -124,7 +124,9 @@ export const SubCategoryProducts = () => {
 
           {/* Cart Icon with Badge */}
           <div className="relative cursor-pointer">
+            <Link to="/cart">
             <FaShoppingCart className="text-3xl text-blue-900" size={25} />
+            </Link>
             {cartItems.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
                 {cartItems.length}
