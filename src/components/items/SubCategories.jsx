@@ -43,17 +43,19 @@ export const SubCategories = () => {
   };
 
   return (
-    <div className="bg-gray-100 w-full min-h-screen">
+    <div className="bg-blue-50 w-full min-h-screen">
       {/* Navbar */}
       <nav className="bg-white shadow-md py-3 px-6 flex justify-between items-center max-w-screen-3xl mx-auto w-full ">
-        <h1 className="text-2xl font-bold text-green-600">FMCG Hub</h1>
-        <Link to="/" className="text-green-600 flex items-center gap-2 text-lg font-semibold hover:text-green-700">
+        <h1 className="text-2xl font-bold text-blue-900">FMCG Hub</h1>
+        <Link to="/" className="text-blue-900 flex items-center gap-2 text-lg font-semibold hover:text-blue-400">
           <FaHome  size={25}/> 
         </Link>
       </nav>
 
       {/* Header Section */}
-      <section className="bg-green-700 text-white py-14 px-6 text-center mt-0">
+      {/* <section className="bg-blue-400 text-white py-16 px-8 text-center w-full rounded-lg mt-6 shadow-lg shadow-blue-500/50"> */}
+      <section className="bg-gradient-to-r from-blue-300 to-blue-500 text-white py-16 px-8 text-center w-full rounded-lg mt-6">
+
         <h2 className="text-4xl font-bold">Explore {categoryName}</h2>
       </section>
 
@@ -70,7 +72,7 @@ export const SubCategories = () => {
                   to={`/subcategory/${subcategory._id}/products`} 
                   className="bg-white p-6 rounded-lg shadow hover:shadow-xl transition-all text-center flex flex-col items-center"
                 >
-                  <FaTags className="text-green-600 text-5xl mb-4" />
+                  <FaTags className="text-blue-900 text-5xl mb-4" />
                   <span className="text-xl font-semibold">{subcategory.name}</span>
                 </Link>
               ))}

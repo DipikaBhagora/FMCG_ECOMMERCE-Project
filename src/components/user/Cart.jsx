@@ -45,9 +45,9 @@ export const Cart = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-blue-50">
       <div className="bg-white p-8 shadow-lg rounded-lg w-full max-w-4xl">
-        <h1 className="text-3xl font-bold text-center text-green-600 mb-6">My Cart</h1>
+        <h1 className="text-3xl font-bold text-center text-blue-900 mb-6">My Cart</h1>
 
         {cartItems.length > 0 ? (
           <div className="space-y-6">
@@ -76,7 +76,7 @@ export const Cart = () => {
         ) : (
           <div className="flex flex-col items-center justify-center text-center py-20">
             <p className="text-gray-500 text-lg">Your cart is empty.</p>
-            <Link to="/" className="mt-6 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
+            <Link to="/" className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
               Shop Now
             </Link>
           </div>

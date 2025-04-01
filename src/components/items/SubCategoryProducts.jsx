@@ -11,6 +11,7 @@ const ProductCard = ({ product, addToCart }) => {
   const isOutOfStock = quantity === 0;
 
   return (
+    <div className="bg-blue-50">
     <div className="bg-white p-3 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 w-full max-w-[250px] text-center relative">
       {/* Discount Badge */}
       {discount > 0 && (
@@ -34,11 +35,11 @@ const ProductCard = ({ product, addToCart }) => {
 
       {/* Product Details */}
       <div className="p-3">
-        <h4 className="text-lg font-semibold truncate">{productName || "Unnamed Product"}</h4>
-        <p className="text-sm text-gray-600 mt-1">{productDetail || "No description available."}</p>
+        <h4 className="text-lg font-semibold w-full truncate">{productName || "Unnamed Product"}</h4>
+        <p className="text-sm text-gray-600 mt-1 w-full truncate">{productDetail || "No description available."}</p>
 
         {/* Pricing */}
-        <p className="text-green-600 font-bold text-base mt-1">
+        <p className="text-black font-bold text-base mt-1">
           ₹{offerPrice || basePrice}
           {offerPrice && (
             <span className="text-gray-500 text-xs line-through ml-1">₹{basePrice}</span>
@@ -47,7 +48,7 @@ const ProductCard = ({ product, addToCart }) => {
 
         {/* Stock Availability */}
         <div className="flex items-center justify-center gap-2 mt-2 text-sm font-medium">
-          <span className="bg-blue-200 px-2 py-1 rounded">Qty: {quantity}</span>
+          <span className="bg-pink-100 px-2 py-1 rounded">Qty: {quantity}</span>
           <span className={isOutOfStock ? "text-red-500" : "text-green-600"}>
             {isOutOfStock ? "Out of Stock" : "In Stock"}
           </span>
@@ -56,13 +57,14 @@ const ProductCard = ({ product, addToCart }) => {
         {/* Add to Cart Button */}
         <button
           className={`mt-3 px-3 py-1.5 rounded-md text-sm font-semibold transition-all w-full flex justify-center items-center gap-1 
-            ${isOutOfStock ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-green-600 text-white hover:bg-green-700"}`}
+            ${isOutOfStock ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"}`}
           disabled={isOutOfStock}
           onClick={() => addToCart(product)}
         >
           <FaShoppingCart /> Add to Cart
         </button>
       </div>
+    </div>
     </div>
   );
 };
@@ -103,10 +105,10 @@ export const SubCategoryProducts = () => {
   );
 
   return (
-    <div className="bg-gray-100 w-full min-h-screen">
+    <div className="bg-blue-50 w-full min-h-screen">
       {/* Navbar */}
-      <nav className="bg-white shadow-md py-3 px-6 flex justify-between items-center w-full fixed top-0 left-0 z-50">
-        <Link to="/" className="text-2xl font-bold text-green-600">FMCG Hub</Link>
+      <nav className="bg-white shadow-md py-3 px-6 flex justify-between items-center w-full fixed top-0 left-0 z-50 mb-90">
+        <Link to="/" className="text-2xl font-bold text-blue-900">FMCG Hub</Link>
         <div className="flex items-center gap-4">
           {/* Search Input */}
           <div className="relative w-80">
@@ -117,12 +119,12 @@ export const SubCategoryProducts = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <FaSearch className="absolute right-3 top-3 text-gray-600 cursor-pointer text-xl" />
+            <FaSearch className="absolute right-3 top-3 text-blue-600 cursor-pointer text-xl" />
           </div>
 
           {/* Cart Icon with Badge */}
           <div className="relative cursor-pointer">
-            <FaShoppingCart className="text-3xl text-green-600" size={25} />
+            <FaShoppingCart className="text-3xl text-blue-900" size={25} />
             {cartItems.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
                 {cartItems.length}
@@ -133,9 +135,11 @@ export const SubCategoryProducts = () => {
       </nav>
 
       {/* Page Content */}
-      <div className="mt-0 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-bold text-center text-gray-800 mb-10 mt-20">Explore Our Products</h2>
-
+      <div className="mt-0 px-4 sm:px-6 lg:px-8 pt-24">
+        {/* <h2 className="text-4xl font-bold text-center text-gray-800 mb-10 mt-20">Explore Our Products</h2> */}
+        <h2 className="bg-white text-blue-900 px-6 py-3 rounded-lg text-3xl font-semibold text-center mb-8 w-full hover:bg-gray-200 transition-all">
+            EXPLORE OUR PRODUCTS
+      </h2>
         {loading ? (
           <div className="flex justify-center items-center">
             <div className="animate-spin rounded-full h-10 w-12 border-t-4 border-blue-500"></div>
@@ -149,7 +153,7 @@ export const SubCategoryProducts = () => {
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-500">No products available.</p>
+          <p className="text-center text-red-500">No products available.</p>
         )}
       </div>
     </div>
