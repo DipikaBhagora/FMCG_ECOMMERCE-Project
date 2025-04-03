@@ -55,6 +55,8 @@ export const HomePage = () => {
     }
   };
 
+
+  //slider
   const sliderSettings = {
     dots: false,
     infinite: true,
@@ -91,14 +93,14 @@ export const HomePage = () => {
       <nav className="bg-white shadow-md py-3 px-6 flex justify-between items-center w-full">
         <h1 className="text-2xl font-bold text-blue-900">FMCG Hub</h1>
         <div className="flex items-center gap-4">
-          <div className="relative">
+          {/* <div className="relative">
             <input
               type="text"
               placeholder="Search any product..."
               className="border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 text-sm"
             />
             <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-blue-600 cursor-pointer text-lg" />
-          </div>
+          </div> */}
           <Link to="/cart" className="text-blue-900 hover:text-blue-600">
             <FaShoppingCart size={22} />
           </Link>
