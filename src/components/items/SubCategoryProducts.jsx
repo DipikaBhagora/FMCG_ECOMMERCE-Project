@@ -12,6 +12,7 @@ const ProductCard = ({ product, addToCart }) => {
 
   return (
     <div className="bg-blue-50">
+       <Link to={`/product/getproductbyid/${product._id}`} className="block">
     <div className="bg-white p-3 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 w-full max-w-[250px] text-center relative">
       {/* Discount Badge */}
       {discount > 0 && (
@@ -56,15 +57,21 @@ const ProductCard = ({ product, addToCart }) => {
 
         {/* Add to Cart Button */}
         <button
+           onClick={(e) => {
+            e.stopPropagation(); // Prevents navigation
+            e.preventDefault(); // Ensures it doesn't trigger link behavior
+            addToCart(product);
+          }}
           className={`mt-3 px-3 py-1.5 rounded-md text-sm font-semibold transition-all w-full flex justify-center items-center gap-1 
             ${isOutOfStock ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"}`}
           disabled={isOutOfStock}
-          onClick={() => addToCart(product)}
+          //onClick={() => addToCart(product)}
         >
           <FaShoppingCart /> Add to Cart
         </button>
       </div>
     </div>
+    </Link>
     </div>
   );
 };

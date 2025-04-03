@@ -20,6 +20,7 @@ import { UpdateUserAddress } from './components/user/UpdateUserAddress'
 import { ViewUserAddress } from './components/user/ViewUserAddress'
 import { SubCategories } from './components/items/SubCategories'
 import { SubCategoryProducts } from './components/items/SubCategoryProducts'
+import { ViewProductById } from './components/items/ViewProductById'
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
     <Route path='/cart' element={<Cart/>}></Route>
     <Route path='/subcategory/:categoryId' element={<SubCategories/>}/>
     <Route path='/subcategory/:subCategoryId/products' element={<SubCategoryProducts/>}/>
+    <Route path='/product/getproductbyid/:id' element={<ViewProductById/>}/>
     
 
     <Route path='' element={<PrivateRoutes/>}>

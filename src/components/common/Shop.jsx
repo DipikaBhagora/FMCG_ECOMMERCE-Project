@@ -10,6 +10,7 @@ const ProductCard = ({ product }) => {
   const isOutOfStock = quantity === 0;
 
   return (
+    <Link to={`/product/getproductbyid/${product._id}`} className="block"> {/* Entire card is clickable */}
     <div className="bg-blue-50">
     <div className="bg-white p-3 rounded-lg shadow-lg hover:shadow-2xl transition-all w-full max-w-[250px] text-center relative">
       {/* Discount Badge */}
@@ -48,6 +49,7 @@ const ProductCard = ({ product }) => {
 
       {/* Add to Cart Button */}
       <button
+         onClick={(e) => e.stopPropagation()} // Stops navigation when clicking the button
         className={`mt-3 px-3 py-1.5 rounded-md text-sm font-semibold transition-all w-full flex justify-center items-center gap-1 
           ${isOutOfStock ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"}`}
         disabled={isOutOfStock}
@@ -56,6 +58,7 @@ const ProductCard = ({ product }) => {
       </button>
     </div>
     </div>
+   </Link>
   );
 };
 
@@ -71,6 +74,7 @@ export const Shop = () => {
     try {
       const res = await axios.get("/product/getproducts");
       setProducts(res.data.data || []);
+      console.log(res)
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -91,11 +95,11 @@ export const Shop = () => {
             <input
               type="text"
               placeholder="Search products..."
-              className="border rounded-lg px-3 py-2 focus:outline-none w-full"
+              className="border rounded-lg px-3 py-1 focus:outline-none w-full"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <FaSearch className="absolute right-3 top-3 text-blue-900 cursor-pointer text-xl" />
+            <FaSearch className="absolute right-3 top-2 text-blue-900 cursor-pointer text-xl" />
           </div>
           {/* Cart Link */}
           <Link to="/cart" className="text-blue-900">

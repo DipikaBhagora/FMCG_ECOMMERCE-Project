@@ -145,10 +145,12 @@ export const HomePage = () => {
   EXPLORE MORE PRODUCTS
 </h2>
 
+  
   <Slider {...sliderSettings}>
     {products.length > 0 ? (
       products.map((product) => (
         <div key={product._id} className="p-4">
+            <Link to={`/product/getproductbyid/${product._id}`} className="block">
           <div className="bg-white rounded-lg shadow-md p-4 text-center w-[200px] h-[350px] mx-auto flex flex-col">
             <img
               src={product.productImages || "https://via.placeholder.com/250"}
@@ -157,10 +159,13 @@ export const HomePage = () => {
             />
             <h3 className="text-lg font-semibold text-ellipsis overflow-hidden whitespace-nowrap mb-2">{product.productName}</h3>
             <p className="text-pink-700 font-bold mb-2">₹{product.offerPrice}</p>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mt-auto">
+            <button 
+              onClick={(e) => e.stopPropagation()} // Stops link navigation when clicking the button
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mt-auto">
               Add to cart
             </button>
           </div>
+          </Link>
         </div>
             ))
           ) : (

@@ -38,10 +38,10 @@ export const Login = () => {
                   navigate("/")
                 }
                 if(res.data.data.roleId.name === "ADMIN"){
-                  navigate("/user")
+                  navigate("/user/profile")
                 }
                 if(res.data.data.roleId.name === "VENDOR"){
-                  navigate("/vendor")
+                  navigate("/vendor/profile")
                 }
             }, 500)
           }

@@ -47,11 +47,6 @@ export const UserSidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/themes" className="flex items-center px-4 py-3 hover:bg-gray-700 transition">
-                <FaPalette className="mr-3" /> Themes
-              </Link>
-            </li>
-            <li>
               <button onClick={() => { localStorage.removeItem("id"); window.location.href = "/login"; }} className="w-full flex items-center px-4 py-3 hover:bg-red-600 transition text-left">
                 <FaSignOutAlt className="mr-3" /> Logout
               </button>

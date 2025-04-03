@@ -61,11 +61,11 @@ export const VendorNavbar = ({ toggleSidebar }) => {
               Home
             </Link>
           </li>
-          <li className="nav-item d-none d-md-block">
+          {/* <li className="nav-item d-none d-md-block">
             <a href="#" className="nav-link" style={navLinkStyle}>
               Contact
             </a>
-          </li>
+          </li> */}
         </ul>
 
         <ul className="navbar-nav ms-auto">
