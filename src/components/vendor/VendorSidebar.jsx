@@ -72,7 +72,7 @@ export const VendorSidebar = () => {
                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700"
               >
                 <FaComment />
-                {isSidebarOpen && "Messages"}
+                {isSidebarOpen && "Inbox"}
               </Link>
             </li>
           </ul>

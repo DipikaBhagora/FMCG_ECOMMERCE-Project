@@ -27,16 +27,16 @@ function App() {
 
   axios.defaults.baseURL = "http://localhost:3000";
 
-  const location = useLocation();
+   const location = useLocation();
 
-  useEffect(() => {
-    if (location.pathname === "/login" || location.pathname === "/signup") {
-      document.body.className = ""; // Remove the unwanted class for login and signup
-    } else {
-      document.body.className =
-        "layout-fixed sidebar-expand-lg bg-body-tertiary sidebar-open app-loaded";
-    }
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   if (location.pathname === "/login" || location.pathname === "/signup") {
+  //     document.body.className = ""; // Remove the unwanted class for login and signup
+  //   } else {
+  //     document.body.className =
+  //       "layout-fixed sidebar-expand-lg bg-body-tertiary sidebar-open app-loaded";
+  //   }
+  // }, [location.pathname]);
 
   return (
 <>

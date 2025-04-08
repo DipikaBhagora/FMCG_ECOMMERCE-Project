@@ -12,7 +12,7 @@ export const Signup = () => {
 
   const submitHandler = async (data) => {
     try {
-      data.roleId = "67cbdf40c98099e54f8e961c";
+      //data.roleId = "67cbdf40c98099e54f8e961c";
       const res = await axios.post("/user/signup", data);
       console.log("API Response: ",res.data)
 
@@ -67,38 +67,47 @@ export const Signup = () => {
         
         {/* Left Section: Signup Form */}
         <div className="w-1/2 flex flex-col justify-center items-center p-10">
-          <h1 className="text-3xl font-extrabold text-gray-900 mb-5">SIGN UP</h1>
+          <h1 className="text-3xl font-extrabold text-gray-900 mb-4">SIGN UP</h1>
           <form onSubmit={handleSubmit(submitHandler)} className="w-full flex flex-col items-center">
             <input
-              className="w-full px-6 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
+              className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
               type="text"
               {...register("firstName")}
               placeholder="First Name"
             />
             <input
-              className="w-full px-6 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
+              className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
               type="text"
               {...register("lastName")}
               placeholder="Last Name"
             />
             <input
-              className="w-full px-6 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
+              className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
               type="number"
               {...register("age")}
               placeholder="Age"
             />
             <input
-              className="w-full px-6 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
+              className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
               type="email"
               {...register("email")}
               placeholder="Email"
             />
             <input
-              className="w-full px-6 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
+              className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
               type="password"
               {...register("password")}
               placeholder="Password"
             />
+              <select
+  {...register("roleId")}
+  className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm text-gray-400  focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
+>
+  <option value="">Select Role</option>
+  <option value="67cbdf40c98099e54f8e961c">User</option>
+  <option value="1234567890abcdef12345678">Admin</option>
+  <option value="abcdef1234567890abcdef12">Manager</option>
+</select>
             <button
               type="submit"
               className="mt-4 w-full bg-indigo-500 text-white font-semibold py-3 rounded-lg hover:bg-indigo-700 flex items-center justify-center transition-all"

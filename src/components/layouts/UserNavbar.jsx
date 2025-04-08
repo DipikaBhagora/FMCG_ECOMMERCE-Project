@@ -9,7 +9,7 @@ export const UserNavbar = ({ toggleSidebar }) => {
     // Clear authentication data
     localStorage.removeItem("token"); // Remove JWT token
     localStorage.removeItem("id"); // Remove user ID
-    localStorage.removeItem("user"); // Remove user details
+    localStorage.removeItem("role"); // Remove user details
     sessionStorage.clear(); // Clear sessionStorage if used
     // Redirect to login page
     navigate("/login");

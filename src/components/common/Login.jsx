@@ -3,7 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import loginImage from "../../assets/images/undraw_access-account_aydp.png"; // Correct image import
+import loginImage from "../../assets/images/undraw_access-account_aydp.png"; 
 import { ToastContainer, toast, Bounce } from "react-toastify";
 
 export const Login = () => {
