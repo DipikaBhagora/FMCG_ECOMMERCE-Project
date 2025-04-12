@@ -3,16 +3,23 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { CartIcon } from "../common/CartIcon";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../redux/CartSlice";
+import { FavouriteIcon } from "./FavouriteIcon";
 
 // Reusable Product Card
 const ProductCard = ({ product, addToCart }) => {
-  const { productName, offerPrice, basePrice, quantity, productImages, productDetail } = product;
+
+    //dispatch hook -> responsible for calling redux action in any component
+    const dispatch = useDispatch();
+
+  const {_id, productName, offerPrice, basePrice, quantity, productImages, productDetail } = product;
   const discount = basePrice ? ((basePrice - offerPrice) / basePrice) * 100 : 0;
   const isOutOfStock = quantity === 0;
 
   return (
     <div className="bg-blue-50">
-       <Link to={`/product/getproductbyid/${product._id}`} className="block">
     <div className="bg-white p-3 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 w-full max-w-[250px] text-center relative">
       {/* Discount Badge */}
       {discount > 0 && (
@@ -21,7 +28,13 @@ const ProductCard = ({ product, addToCart }) => {
         </div>
       )}
 
+      {/* Wishlist Icon */}
+             <div className="absolute top-2 right-2">
+                <FavouriteIcon product={product} />
+              </div>
+
       {/* Product Image */}
+      <Link to={`/product/getproductbyid/${product._id}`} className="block">
       <div className="h-40 bg-gray-200 overflow-hidden">
         {productImages ? (
           <img
@@ -45,7 +58,9 @@ const ProductCard = ({ product, addToCart }) => {
           {offerPrice && (
             <span className="text-gray-500 text-xs line-through ml-1">₹{basePrice}</span>
           )}
-        </p>
+        </p>   
+        </div>
+        </Link>
 
         {/* Stock Availability */}
         <div className="flex items-center justify-center gap-2 mt-2 text-sm font-medium">
@@ -54,35 +69,46 @@ const ProductCard = ({ product, addToCart }) => {
             {isOutOfStock ? "Out of Stock" : "In Stock"}
           </span>
         </div>
+    
 
         {/* Add to Cart Button */}
         <button
-           onClick={(e) => {
-            e.stopPropagation(); // Prevents navigation
-            e.preventDefault(); // Ensures it doesn't trigger link behavior
-            addToCart(product);
-          }}
-          className={`mt-3 px-3 py-1.5 rounded-md text-sm font-semibold transition-all w-full flex justify-center items-center gap-1 
-            ${isOutOfStock ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"}`}
-          disabled={isOutOfStock}
-          //onClick={() => addToCart(product)}
-        >
-          <FaShoppingCart /> Add to Cart
-        </button>
+               onClick={(e) => {
+                 e.stopPropagation()
+                 if (!isOutOfStock) {
+                   dispatch(addToCart({
+                     id: _id,
+                     name: productName,
+                     price: offerPrice || basePrice,
+                     image: productImages || "https://via.placeholder.com/250",
+                 })
+                 );
+                 }
+               }}
+               className={`mt-3 px-3 py-1.5 rounded-md text-sm font-semibold transition-all w-full flex justify-center items-center gap-1 
+                 ${isOutOfStock ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"}`}
+               disabled={isOutOfStock}
+             >
+               <FaShoppingCart /> Add to Cart
+             </button>
       </div>
     </div>
-    </Link>
-    </div>
+    
+    //</div>
   );
 };
 
 export const SubCategoryProducts = () => {
+
   const { subCategoryId } = useParams();
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [cartItems, setCartItems] = useState([]);
+  // const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+    const cartItems = useSelector((state) => state.cart.cart);
+    const totalCartItems = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
 
   useEffect(() => {
     fetchProductsBySubCategory();
@@ -99,11 +125,6 @@ export const SubCategoryProducts = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  // Add product to cart
-  const addToCart = (product) => {
-    setCartItems([...cartItems, product]);
   };
 
   // Filter products based on search
@@ -131,14 +152,15 @@ export const SubCategoryProducts = () => {
 
           {/* Cart Icon with Badge */}
           <div className="relative cursor-pointer">
-            <Link to="/cart">
+            {/* <Link to="/cart">
             <FaShoppingCart className="text-3xl text-blue-900" size={25} />
-            </Link>
-            {cartItems.length > 0 && (
+            </Link> */}
+            <CartIcon/>
+            {/* {cartItems.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
                 {cartItems.length}
               </span>
-            )}
+            )} */}
           </div>
         </div>
       </nav>

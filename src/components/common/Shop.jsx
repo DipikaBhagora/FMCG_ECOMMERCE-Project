@@ -2,15 +2,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { FaShoppingCart, FaSearch } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../redux/CartSlice";
+import { FavouriteIcon } from "../items/FavouriteIcon";
 
 // Reusable Product Card
 const ProductCard = ({ product }) => {
-  const { productName, offerPrice, basePrice, quantity, productImages, productDetail } = product;
+
+  
+  //dispatch hook -> responsible for calling redux action in any component
+  const dispatch = useDispatch();
+
+  const { _id,productName, offerPrice, basePrice, quantity, productImages, productDetail } = product;
   const discount = basePrice ? ((basePrice - offerPrice) / basePrice) * 100 : 0;
   const isOutOfStock = quantity === 0;
 
   return (
-    <Link to={`/product/getproductbyid/${product._id}`} className="block"> {/* Entire card is clickable */}
     <div className="bg-blue-50">
     <div className="bg-white p-3 rounded-lg shadow-lg hover:shadow-2xl transition-all w-full max-w-[250px] text-center relative">
       {/* Discount Badge */}
@@ -20,7 +27,13 @@ const ProductCard = ({ product }) => {
         </div>
       )}
 
+       {/* Wishlist Icon */}
+       <div className="absolute top-2 right-2">
+          <FavouriteIcon product={product} />
+        </div>
+
       {/* Product Image */}
+      <Link to={`/product/getproductbyid/${product._id}`} className="block"> 
       <img
         className="w-full h-36 object-cover rounded-md mb-3"
         src={productImages || "https://via.placeholder.com/250"}
@@ -30,6 +43,7 @@ const ProductCard = ({ product }) => {
       {/* Product Name */}
       <h4 className="text-lg font-semibold w-full truncate">{productName || "unnamed Product" }</h4>
       {/* <p className="text-sm text-gray-600 mt-1 w-full line-clamp-2">{productDetail || "No description available."}</p> */}
+      </Link>
 
       {/* Pricing */}
       <p className="text-black-100 font-bold text-base mt-1">
@@ -46,10 +60,22 @@ const ProductCard = ({ product }) => {
           {isOutOfStock ? "Out of Stock" : "In Stock"}
         </span>
       </div>
+    
 
       {/* Add to Cart Button */}
-      <button
-         onClick={(e) => e.stopPropagation()} // Stops navigation when clicking the button
+       <button
+        onClick={(e) => {
+          e.stopPropagation()
+          if (!isOutOfStock) {
+            dispatch(addToCart({
+              id: _id,
+              name: productName,
+              price: offerPrice || basePrice,
+              image: productImages || "https://via.placeholder.com/250",
+          })
+          );
+          }
+        }}
         className={`mt-3 px-3 py-1.5 rounded-md text-sm font-semibold transition-all w-full flex justify-center items-center gap-1 
           ${isOutOfStock ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"}`}
         disabled={isOutOfStock}
@@ -58,13 +84,17 @@ const ProductCard = ({ product }) => {
       </button>
     </div>
     </div>
-   </Link>
+    
   );
 };
 
 export const Shop = () => {
+
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const cartItems = useSelector((state) => state.cart.cart);
+  const totalCartItems = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
 
   useEffect(() => {
     fetchProducts();
@@ -101,9 +131,14 @@ export const Shop = () => {
             />
             <FaSearch className="absolute right-3 top-2 text-blue-900 cursor-pointer text-xl" />
           </div>
-          {/* Cart Link */}
-          <Link to="/cart" className="text-blue-900">
+           {/* Cart Link with badge */}
+           <Link to="/cart" className="relative text-blue-900">
             <FaShoppingCart size={25} />
+            {totalCartItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                {totalCartItems}
+              </span>
+            )}
           </Link>
         </div>
       </nav>

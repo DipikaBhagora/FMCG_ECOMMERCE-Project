@@ -21,6 +21,8 @@ import { ViewUserAddress } from './components/user/ViewUserAddress'
 import { SubCategories } from './components/items/SubCategories'
 import { SubCategoryProducts } from './components/items/SubCategoryProducts'
 import { ViewProductById } from './components/items/ViewProductById'
+import { WishList } from './components/items/WishList'
+import { LogoutIcon } from './components/common/LogoutIcon'
 
 
 function App() {
@@ -58,6 +60,7 @@ function App() {
     <Route path='/subcategory/:categoryId' element={<SubCategories/>}/>
     <Route path='/subcategory/:subCategoryId/products' element={<SubCategoryProducts/>}/>
     <Route path='/product/getproductbyid/:id' element={<ViewProductById/>}/>
+    <Route path='/logout' element={<LogoutIcon/>}/>
     
 
     <Route path='' element={<PrivateRoutes/>}>
@@ -66,6 +69,7 @@ function App() {
     <Route path='address' element={<UserAddress/>} />
     <Route path='updateaddress/:id' element={<UpdateUserAddress/>}/>
     <Route path='viewaddress' element={<ViewUserAddress/>}/>
+    <Route path='favourites' element={<WishList/>}/>
 
     </Route>
       

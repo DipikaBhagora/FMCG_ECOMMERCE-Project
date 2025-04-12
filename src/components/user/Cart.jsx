@@ -1,89 +1,125 @@
-// 
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { clearCart, removeFromCart } from "../../redux/CartSlice";
 
 export const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
-  const userId = localStorage.getItem("id"); // Get user ID from local storage
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.cart);
 
-  useEffect(() => {
-    if (userId) {
-      fetchCart();
+  // Group by product ID and count quantity
+  const groupedCart = cartItems.reduce((acc, item) => {
+    const key = item.id;
+    if (!acc[key]) {
+      acc[key] = { ...item, quantity: 1 };
+    } else {
+      acc[key].quantity += 1;
     }
-  }, [userId]);
+    return acc;
+  }, {});
+  const groupedItems = Object.values(groupedCart);
 
-  // Fetch cart items
-  const fetchCart = async () => {
-    try {
-      const res = await axios.get(`/cart/getcart/${userId}`);
-      setCartItems(res.data.data);
-    } catch (error) {
-      console.error("Error fetching cart:", error);
-    }
-  };
+  // Calculate total price
+  const totalPrice = groupedItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
-  // Update cart quantity
-  const updateCart = async (cartItemId, quantity) => {
-    if (quantity < 1) return;
-    try {
-      await axios.put(`/cart/updatecart/${cartItemId}`, { quantity });
-      fetchCart();
-    } catch (error) {
-      console.error("Error updating cart:", error);
-    }
-  };
+   //Save cart to localStorage whenever cartItems change
+   useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
 
-  // Delete cart item
-  const deleteCartItem = async (cartItemId) => {
-    try {
-      await axios.delete(`/cart/deletecart/${cartItemId}`);
-      fetchCart();
-    } catch (error) {
-      console.error("Error deleting cart item:", error);
-    }
+  //Clear cart from Redux and localStorage
+  const handleClearCart = () => {
+    dispatch(clearCart());
+    localStorage.removeItem("cart");
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-blue-50">
-      <div className="bg-white p-8 shadow-lg rounded-lg w-full max-w-4xl">
-        <h1 className="text-3xl font-bold text-center text-blue-900 mb-6">My Cart</h1>
+    <section className="min-h-screen bg-blue-50 py-10 px-4">
+      <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-lg p-8">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-semibold text-blue-900">
+            <Link to="/">
+            Shopping Cart
+            </Link>
+            </h1>
+          {groupedItems.length > 0 && (
+            <button
+              // onClick={() => 
+              //   dispatch(clearCart())
+              // }
+              onClick={handleClearCart}
+              className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-2 rounded-md transition"
+            >
+              Clear Cart
+            </button>
+          )}
+        </div>
 
-        {cartItems.length > 0 ? (
-          <div className="space-y-6">
-            {cartItems.map((item) => (
-              <div key={item._id} className="flex justify-between items-center border-b py-4">
-                <div className="flex items-center gap-4">
-                  <img
-                    src={item.productId?.productImages?.[0]}
-                    alt={item.productId?.productName}
-                    className="w-20 h-20 object-cover rounded-lg"
-                  />
-                  <div>
-                    <h2 className="text-lg font-bold">{item.productId?.productName}</h2>
-                    <p className="text-gray-600">₹{item.productId?.offerPrice || item.productId?.basePrice}</p>
+        {groupedItems.length > 0 ? (
+          <>
+            {/* Cart Items */}
+            <div className="divide-y">
+              {groupedItems.map((item) => (
+                <div key={item.id} className="py-6 flex justify-between items-center">
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-20 h-20 rounded-lg border object-cover"
+                    />
+                    <div>
+                      <h2 className="text-lg font-medium">{item.name}</h2>
+                      <p className="text-gray-500 text-sm">₹{item.price.toFixed(2)}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm">Qty: {item.quantity}</p>
+                    <p className="font-semibold mt-1">
+                      ₹{(item.price * item.quantity).toFixed(2)}
+                    </p>
+                    <button
+                      onClick={() => dispatch(removeFromCart(item.id))}
+                      className="text-red-500 text-sm mt-1 hover:underline"
+                    >
+                      Remove
+                    </button>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
-                  <button onClick={() => updateCart(item._id, item.quantity - 1)} className="px-3 py-2 bg-gray-300 text-gray-700 rounded">-</button>
-                  <span className="text-lg">{item.quantity}</span>
-                  <button onClick={() => updateCart(item._id, item.quantity + 1)} className="px-3 py-2 bg-green-600 text-white rounded">+</button>
-                  <button onClick={() => deleteCartItem(item._id)} className="px-3 py-2 bg-red-600 text-white rounded">Remove</button>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+
+            {/* Summary & Actions */}
+            <div className="flex justify-between items-center mt-10 border-t-4 pt-6">
+              <button
+                onClick={() => alert("Proceeding to checkout...")}
+                className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-3 rounded-md transition"
+              >
+                Buy Now
+              </button>
+              <p className="text-xl font-semibold text-blue-900">
+                Grand Total: ₹{totalPrice.toFixed(2)}
+              </p>
+            </div>
+          </>
         ) : (
-          <div className="flex flex-col items-center justify-center text-center py-20">
-            <p className="text-gray-500 text-lg">Your cart is empty.</p>
-            <Link to="/" className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
-              Shop Now
+          // Empty Cart View
+          <div className="text-center py-20">
+            <p className="text-gray-500 text-lg mb-6">Your cart is currently empty.</p>
+            <Link
+              to="/"
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition"
+            >
+              Continue Shopping
             </Link>
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 
-export default Cart;
+

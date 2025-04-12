@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { FaUserCircle, FaEnvelope, FaUserTag, FaSignOutAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { FaUserCircle, FaEnvelope, FaUserTag, FaSignOutAlt, FaPhone } from "react-icons/fa";
 
 export const UserProfile = () => {
     const [user, setUser] = useState(null);
@@ -22,6 +23,7 @@ export const UserProfile = () => {
                 setUser({
                     name: `${res.data.data.firstName} ${res.data.data.lastName}`,
                     email: res.data.data.email,
+                    Phone: res.data.data.number || "Not available",
                     role: res.data.data.roleId?.name || "Not Assigned"
                 });
             } catch (error) {
@@ -41,10 +43,23 @@ export const UserProfile = () => {
         DEFAULT: "bg-gray-500"
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("id");
-        window.location.href = "/login";
-    };
+    // const handleLogout = () => {
+    //      // Clear Redux states
+    // dispatch(clearCart());
+    // dispatch(clearWishlist());
+
+    // //localStorage.removeItem("token"); // Remove JWT token
+    // localStorage.removeItem("id"); // Remove user ID
+    // localStorage.removeItem("role"); // Remove user details
+    // localStorage.removeItem("cart");
+    // localStorage.removeItem("wishlist");
+    // sessionStorage.clear(); // Clear sessionStorage if used
+    
+    // // Hard reload to reset persisted states and redirect
+    // window.location.href = "/login";
+    //     // localStorage.removeItem("id");
+    //     // window.location.href = "/login";
+    // };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -70,6 +85,11 @@ export const UserProfile = () => {
                             <p className="text-gray-800 text-sm font-semibold">{user.email}</p>
                         </div>
 
+                        <div className="flex items-center space-x-3 bg-gray-100 p-3 rounded-md shadow-sm">
+                            <FaPhone className="text-gray-600 text-lg transform rotate-190"  />
+                            <p className="text-gray-800 text-sm font-semibold">{user.Phone}</p>
+                        </div>
+
                         <div className="flex items-center space-x-3 bg-gray-100 p-3 rounded-md shadow-sm justify-center">
                             <FaUserTag className="text-gray-600 text-lg" />
                             <span className={`px-4 py-1 text-white text-xs font-semibold rounded-full ${roleColors[user.role] || roleColors.DEFAULT}`}>
@@ -80,9 +100,10 @@ export const UserProfile = () => {
                 )}
                 
                 <button 
-                    onClick={handleLogout} 
+                    // onClick={handleLogout} 
                     className="mt-4 flex items-center justify-center w-full bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition">
-                    <FaSignOutAlt className="mr-2" /> Logout
+                    <FaSignOutAlt className="mr-2" />
+                    <Link to="/logout">Logout</Link> 
                 </button>
             </div>
         </div>

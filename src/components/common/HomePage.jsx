@@ -6,11 +6,18 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { UserFooter } from "../layouts/UserFooter";
+import { CartIcon } from "./CartIcon";
+import { addToCart } from "../../redux/CartSlice";
+import { useDispatch } from "react-redux";
+import { FavouriteIcon } from "../items/FavouriteIcon";
 
 export const HomePage = () => {
+
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [role, setRole] = useState(null);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const storedRole = localStorage.getItem("role");
@@ -56,7 +63,7 @@ export const HomePage = () => {
   };
 
 
-  //slider
+  //slider setting for carousel
   const sliderSettings = {
     dots: false,
     infinite: true,
@@ -101,9 +108,10 @@ export const HomePage = () => {
             />
             <FaSearch className="absolute top-1/2 right-3 transform -translate-y-1/2 text-blue-600 cursor-pointer text-lg" />
           </div> */}
-          <Link to="/cart" className="text-blue-900 hover:text-blue-600">
+          {/* <Link to="/cart" className="text-blue-900 hover:text-blue-600">
             <FaShoppingCart size={22} />
-          </Link>
+          </Link> */}
+          <CartIcon />
           <Link to={role ? getProfilePath(role) : "/login"} className="text-blue-900 hover:text-blue-600">
             <FaUser size={22} />
           </Link>
@@ -147,29 +155,57 @@ export const HomePage = () => {
   EXPLORE MORE PRODUCTS
 </h2>
 
-  
-  <Slider {...sliderSettings}>
-    {products.length > 0 ? (
-      products.map((product) => (
-        <div key={product._id} className="p-4">
-            <Link to={`/product/getproductbyid/${product._id}`} className="block">
-          <div className="bg-white rounded-lg shadow-md p-4 text-center w-[200px] h-[350px] mx-auto flex flex-col">
-            <img
-              src={product.productImages || "https://via.placeholder.com/250"}
-              alt={product.productName}
-              className="w-full h-40 object-cover rounded-md mb-3"
-            />
-            <h3 className="text-lg font-semibold text-ellipsis overflow-hidden whitespace-nowrap mb-2">{product.productName}</h3>
-            <p className="text-pink-700 font-bold mb-2">₹{product.offerPrice}</p>
-            <button 
-              onClick={(e) => e.stopPropagation()} // Stops link navigation when clicking the button
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mt-auto">
-              Add to cart
-            </button>
-          </div>
-          </Link>
-        </div>
-            ))
+<Slider {...sliderSettings}>
+          {products.length > 0 ? (
+            products.map((product) => {
+              // Destructure the product properties
+              const { _id, productName, offerPrice, basePrice, productImages, quantity } = product;
+              const isOutOfStock = quantity === 0;
+
+              return (
+                <div key={_id} className="p-4">
+                  <div className="bg-white rounded-lg shadow-md p-4 text-center w-[200px] h-[350px] mx-auto flex flex-col relative">
+                    {/* Wishlist Icon */}
+                   <div className="absolute top-2 right-2 z-10">
+                    <FavouriteIcon product={product} />
+                   </div>
+                    <Link to={`/product/getproductbyid/${_id}`} className="block">
+                      <img
+                        src={productImages || "https://via.placeholder.com/250"}
+                        alt={productName}
+                        className="w-full h-40 object-cover rounded-md mb-3"
+                      />
+                      <h3 className="text-lg font-semibold text-ellipsis overflow-hidden whitespace-nowrap mb-2">
+                        {productName}
+                      </h3>
+                      <p className="text-pink-700 font-bold mb-2">₹{offerPrice}</p>
+                    </Link>
+                    {/* Add to Cart Button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (!isOutOfStock) {
+                          dispatch(
+                            addToCart({
+                              id: _id,
+                              name: productName,
+                              price: offerPrice || basePrice,
+                              image: productImages || "https://via.placeholder.com/250"
+                            })
+                          );
+                        }
+                      }}
+                      className={`mt-2 px-3 py-1.5 rounded-md text-sm font-semibold transition-all w-full flex justify-center items-center gap-1 
+                        ${isOutOfStock ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"}`}
+                      disabled={isOutOfStock}
+                    >
+                      <FaShoppingCart className="mr-2" />
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              );
+            })
           ) : (
             <p className="text-center text-gray-500">No products available.</p>
           )}

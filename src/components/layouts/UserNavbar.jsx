@@ -5,15 +5,25 @@ import hamburgermenu from "../../assets/images/hamburgermenu.png";
 export const UserNavbar = ({ toggleSidebar }) => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    // Clear authentication data
-    localStorage.removeItem("token"); // Remove JWT token
-    localStorage.removeItem("id"); // Remove user ID
-    localStorage.removeItem("role"); // Remove user details
-    sessionStorage.clear(); // Clear sessionStorage if used
-    // Redirect to login page
-    navigate("/login");
-  };
+  // const handleLogout = () => {
+
+  //   // Clear Redux states
+  //   dispatch(clearCart());
+  //   dispatch(clearWishlist());
+
+  //   //localStorage.removeItem("token"); // Remove JWT token
+  //   localStorage.removeItem("id"); // Remove user ID
+  //   localStorage.removeItem("role"); // Remove user details
+  //   localStorage.removeItem("cart");
+  //   localStorage.removeItem("wishlist");
+  //   sessionStorage.clear(); // Clear sessionStorage if used
+    
+  //   // Hard reload to reset persisted states and redirect
+  //   window.location.href = "/login";
+
+  //   // Redirect to login page
+  //   //navigate("/login");
+  // };
 
   // Inline styles for the navbar container
   const navbarStyle = {
@@ -83,10 +93,10 @@ export const UserNavbar = ({ toggleSidebar }) => {
           <li className="nav-item">
             <button
               className="btn btn-danger"
-              onClick={handleLogout}
               style={{ marginLeft: "1rem" }}
             >
-              LOGOUT
+              <Link to="/logout">
+              LOGOUT</Link>
             </button>
           </li>
         </ul>
