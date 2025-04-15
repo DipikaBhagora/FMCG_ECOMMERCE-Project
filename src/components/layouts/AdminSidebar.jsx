@@ -3,7 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 import { UserNavbar } from './UserNavbar';
 import { FaUser, FaShoppingCart, FaClipboardList, FaMapMarkerAlt, FaPalette, FaSignOutAlt, FaBars, FaHeart } from "react-icons/fa";
 
-export const UserSidebar = () => {
+export const AdminSidebar = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {

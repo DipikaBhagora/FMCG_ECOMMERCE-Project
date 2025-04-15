@@ -25,8 +25,8 @@ export const Cart = () => {
     0
   );
 
-   //Save cart to localStorage whenever cartItems change
-   useEffect(() => {
+  //Save cart to localStorage whenever cartItems change
+  useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
@@ -43,9 +43,9 @@ export const Cart = () => {
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-semibold text-blue-900">
             <Link to="/">
-            Shopping Cart
+              Shopping Cart
             </Link>
-            </h1>
+          </h1>
           {groupedItems.length > 0 && (
             <button
               // onClick={() => 
@@ -94,12 +94,19 @@ export const Cart = () => {
 
             {/* Summary & Actions */}
             <div className="flex justify-between items-center mt-10 border-t-4 pt-6">
-              <button
+              {/* <button
                 onClick={() => alert("Proceeding to checkout...")}
                 className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-3 rounded-md transition"
               >
                 Buy Now
-              </button>
+              </button> */}
+              <Link
+                to="/user/placeorder"
+                className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-3 rounded-md transition"
+              >
+                Buy Now
+              </Link>
+
               <p className="text-xl font-semibold text-blue-900">
                 Grand Total: ₹{totalPrice.toFixed(2)}
               </p>
@@ -121,5 +128,3 @@ export const Cart = () => {
     </section>
   );
 };
-
-

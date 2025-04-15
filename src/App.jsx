@@ -23,6 +23,8 @@ import { SubCategoryProducts } from './components/items/SubCategoryProducts'
 import { ViewProductById } from './components/items/ViewProductById'
 import { WishList } from './components/items/WishList'
 import { LogoutIcon } from './components/common/LogoutIcon'
+import { Orders } from './components/user/Orders'
+import { PlaceOrder } from './components/user/PlaceOrder'
 
 
 function App() {
@@ -70,8 +72,12 @@ function App() {
     <Route path='updateaddress/:id' element={<UpdateUserAddress/>}/>
     <Route path='viewaddress' element={<ViewUserAddress/>}/>
     <Route path='favourites' element={<WishList/>}/>
+    <Route path='orders' element={<Orders/>}/>
+    <Route path='cart' element={<Cart/>}/>
+    <Route path='placeorder' element={<PlaceOrder/>}/>
 
     </Route>
+
       
     <Route path='/vendor' element={<VendorSidebar/>}> 
     <Route path='addproduct' element={<AddProduct/>} />

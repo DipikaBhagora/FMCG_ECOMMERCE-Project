@@ -468,3 +468,5 @@ export const HomePage = () => {
 
 export default HomePage;
 
+//orders,placeorder,buy,checkingout
+//superadmin dashboard panel
