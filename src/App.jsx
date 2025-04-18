@@ -66,6 +66,7 @@ function App() {
     
 
     <Route path='' element={<PrivateRoutes/>}>
+    
     <Route path='/user' element={<UserSidebar/>}>
     <Route path='profile' element={<UserProfile/>} ></Route>
     <Route path='editprofile' element={<EditUserProfile/>}/>
