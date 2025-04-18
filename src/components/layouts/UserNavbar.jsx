@@ -71,11 +71,11 @@ export const UserNavbar = ({ toggleSidebar }) => {
               Home
             </Link>
           </li>
-          <li className="nav-item d-none d-md-block">
-            <a href="#" className="nav-link" style={navLinkStyle}>
+          {/* <li className="nav-item d-none d-md-block">
+            <Link to="contactustovendor" className="nav-link" style={navLinkStyle}>
               Contact
-            </a>
-          </li>
+            </Link>
+          </li> */}
         </ul>
 
         <ul className="navbar-nav ms-auto">
@@ -91,14 +91,14 @@ export const UserNavbar = ({ toggleSidebar }) => {
             </a>
           </li>
           <li className="nav-item">
-            <button
-              className="btn btn-danger"
-              style={{ marginLeft: "1rem" }}
-            >
-              <Link to="/logout">
-              LOGOUT</Link>
-            </button>
-          </li>
+  <Link
+    to="/logout"
+    className="btn btn-danger"
+    style={{ marginLeft: "1rem" }}
+  >
+    LOGOUT
+  </Link>
+</li>
         </ul>
       </div>
     </nav>

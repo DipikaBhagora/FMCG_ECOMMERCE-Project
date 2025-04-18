@@ -29,8 +29,34 @@ export const Orders = () => {
   const fetchOrders = async () => {
     try {
       const res = await axios.get("/orders/getorders");
-      const userOrders = res.data.data.filter((order) => order.userId._id === userId);
-      setOrders(userOrders);
+      console.log("Fetched Orders:", res.data.data);
+
+      // Filter user-specific orders (with safe checking)
+      const userOrders = res.data.data.filter(
+        (order) => order?.userId?._id === userId
+      );
+      console.log("Filtered User Orders:", userOrders);
+
+      // Group items by product ID and calculate total quantity
+      const groupedOrders = userOrders.map((order) => {
+       
+        const groupedItems = order.items.reduce((acc, item) => {
+          const key = item.productId?._id || item.productId; // handle if populated or just ID
+          if (!acc[key]) {
+            acc[key] = { ...item, quantity: 1, price: item.productId?.offerPrice || item.productId?.price || item.price || 0 // use offerPrice if available
+ };
+          } else {
+            acc[key].quantity += 1; // Increment quantity if same product
+          }
+          return acc;
+        }, {});
+
+        const totalQuantity = Object.values(groupedItems).reduce((total, item) => total + item.quantity, 0);
+
+        return { ...order, groupedItems: Object.values(groupedItems), totalQuantity };
+      });
+
+      setOrders(groupedOrders);
     } catch (err) {
       console.error("Error fetching orders", err);
       toast.error("Failed to fetch orders. Please try again later.");
@@ -46,12 +72,11 @@ export const Orders = () => {
     }
 
     try {
-      // Step 1: Create Razorpay Order
       const res = await axios.post("/orders/createrazorpayorder", { amount });
 
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Use env variable in Vite
-        amount: res.data.amount, // Amount in paise
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: res.data.amount,
         currency: "INR",
         name: "Your Store",
         description: "Order Payment",
@@ -60,7 +85,6 @@ export const Orders = () => {
           console.log("✅ Payment Success", response);
           alert("Payment successful!");
 
-          // Step 2: Update payment status to "Paid" after successful payment
           try {
             await axios.patch("/orders/updatepayment", {
               orderId,
@@ -68,7 +92,7 @@ export const Orders = () => {
               paymentId: response.razorpay_payment_id,
             });
             toast.success("Payment successful!");
-            fetchOrders(); // Refresh the orders list
+            fetchOrders(); // Refresh
           } catch (err) {
             console.error("❌ Failed to update payment status", err);
             toast.error("Failed to update payment status.");
@@ -80,7 +104,7 @@ export const Orders = () => {
           contact: "9999999999",
         },
         theme: {
-          color: "#3399cc", // Customize theme color
+          color: "#3399cc",
         },
         modal: {
           ondismiss: function () {
@@ -89,7 +113,6 @@ export const Orders = () => {
         },
       };
 
-      // Step 3: Open Razorpay Checkout
       const rzp = new window.Razorpay(options);
 
       rzp.on("payment.failed", function (response) {
@@ -99,7 +122,6 @@ export const Orders = () => {
 
       console.log("🟡 Opening Razorpay Checkout...");
       rzp.open();
-
     } catch (err) {
       console.error("❌ Error creating Razorpay order", err);
       toast.error("Error initiating payment. Please try again.");
@@ -112,85 +134,98 @@ export const Orders = () => {
 
   return (
     <section className="min-h-screen bg-gray-50 py-10 px-4">
-    <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-lg p-8">
-      <h1 className="text-3xl font-semibold text-blue-900 mb-8">Your Orders</h1>
+      <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-lg p-8">
+        <h1 className="text-3xl font-semibold text-blue-900 mb-8">Your Orders</h1>
 
-      {orders.length === 0 ? (
-        <div className="text-center py-20">
-          <p className="text-gray-500 text-lg mb-6">You haven’t placed any orders yet.</p>
-        </div>
-      ) : (
-        <div className="space-y-6">
-          {orders.map((order) => (
-            <div
-              key={order._id}
-              className="border rounded-lg p-6 bg-gray-50 shadow-sm hover:shadow-md transition"
-            >
-              <div className="flex justify-between items-center mb-4">
-                <div>
-                  <h2 className="text-lg font-semibold text-gray-800">
-                    Order ID: <span className="text-blue-700">{order._id}</span>
-                  </h2>
-                  <p className="text-sm text-gray-500">
-                    Date: {new Date(order.createdAt).toLocaleDateString()}
+        {orders.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-gray-500 text-lg mb-6">
+              You haven’t placed any orders yet.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {orders.map((order) => (
+              <div
+                key={order._id}
+                className="border rounded-lg p-6 bg-gray-50 shadow-sm hover:shadow-md transition"
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-800">
+                      Order ID: <span className="text-blue-700">{order._id}</span>
+                    </h2>
+                    <p className="text-sm text-gray-500">
+                      Date: {new Date(order.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <span
+                      className={`text-sm font-medium px-3 py-1 rounded-full block ${
+                        statusColors[order.status] || "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      {order.status}
+                    </span>
+                    <span className="text-xs text-gray-600 mt-1 block">
+                      Payment: {order.paymentStatus || "Pending"}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="border-t pt-4">
+                  <p className="text-gray-600 mb-2 font-medium">Items:</p>
+                  {order.groupedItems?.map((item, index) => {
+                    const productName =
+                      item?.productId?.productName || "Unnamed Product";
+                    const price = item?.productId?.price;
+                    const quantity = item?.quantity || 1;
+
+                    return (
+                      <div
+                        key={index}
+                        className="flex justify-between items-center py-1 text-sm"
+                      >
+                        <span>{productName}</span>
+                        <div className="text-right">
+                          <span className="text-gray-500">Qty: {quantity}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <p className="text-right mt-3 font-semibold text-blue-800">
+                    Total: ₹{order.totalAmount}
                   </p>
                 </div>
-                <div className="text-right">
-                  <span
-                    className={`text-sm font-medium px-3 py-1 rounded-full block ${statusColors[order.status]}`}
-                  >
-                    {order.status}
-                  </span>
-                  <span className="text-xs text-gray-600 mt-1 block">
-                    Payment: {order.paymentStatus || "Pending"}
-                  </span>
-                </div>
-              </div>
 
-              <div className="border-t pt-4">
-                <p className="text-gray-600 mb-2 font-medium">Items:</p>
-                {order.items?.length > 0 ? (
-                  order.items.map((item, index) => (
-                    <div key={index} className="flex justify-between items-center py-1 text-sm">
-                      <span>{item.productName || "Item"}</span>
-                      <span>Qty: {item.quantity}</span>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-gray-400 italic text-sm">No item info available</p>
+                {order.paymentStatus !== "Paid" && (
+                  <div className="text-right mt-4">
+                    <button
+                      onClick={() => handlePayment(order._id, order.totalAmount)}
+                      className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-md text-sm"
+                    >
+                      Pay Now
+                    </button>
+                  </div>
                 )}
-                <p className="text-right mt-3 font-semibold text-blue-800">
-                  Total: ₹{order.totalAmount}
-                </p>
+
+                {order.paymentStatus === "Paid" && (
+                  <div className="text-right mt-4">
+                    <button
+                      onClick={() => navigate(`/user/orderdetails/${order._id}`)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md text-sm"
+                    >
+                      View Order Details
+                    </button>
+                  </div>
+                )}
               </div>
-
-              {order.paymentStatus !== "Paid" && (
-                <div className="text-right mt-4">
-                  <button
-                    onClick={() => handlePayment(order._id, order.totalAmount)}
-                    className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-md text-sm"
-                  >
-                    Pay Now
-                  </button>
-                </div>
-              )}
-
-              {order.paymentStatus === "Paid" && (
-                <div className="text-right mt-4">
-                  <button
-                    onClick={() => navigate(`/user/order/${order._id}`)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md text-sm"
-                  >
-                    View Order Details
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  </section>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   );
 };
+
 

@@ -53,27 +53,10 @@ export const UserSidebar = () => {
               </Link>
             </li>
             <li>
-              <button 
-              // onClick={() => {
-              //   //  localStorage.removeItem("id"); window.location.href = "/login"; 
-              //   // Clear Redux states
-              //   dispatch(clearCart());
-              //   dispatch(clearWishlist());
-
-              //   //localStorage.removeItem("token"); // Remove JWT token
-              //   localStorage.removeItem("id"); // Remove user ID
-              //   localStorage.removeItem("role"); // Remove user details
-              //   localStorage.removeItem("cart");
-              //   localStorage.removeItem("wishlist");
-              //   sessionStorage.clear(); // Clear sessionStorage if used
-
-              //   // Hard reload to reset persisted states and redirect
-              //   window.location.href = "/login";
-              //}} 
-              className="w-full flex items-center px-4 py-3 hover:bg-red-600 transition text-left">
-                <FaSignOutAlt className="mr-3" />
-                <Link to="/logout">Logout</Link>
-              </button>
+              <Link to="/logout" className="flex items-center px-4 py-3 hover:bg-red-600 transition w-full text-left">
+              <FaSignOutAlt className="mr-3" />
+              Logout
+            </Link>
             </li>
           </ul>
         </nav>

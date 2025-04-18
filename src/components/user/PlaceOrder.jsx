@@ -21,6 +21,7 @@ export const PlaceOrder = () => {
     }
     return acc;
   }, {});
+
   const groupedItems = Object.values(groupedCart);
   const totalPrice = groupedItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const userId = localStorage.getItem("id");
@@ -36,7 +37,8 @@ export const PlaceOrder = () => {
         userId,
         items: groupedItems.map((item) => ({
           productId: item.id,
-          quantity: item.quantity,
+          productName: item.productName,
+          price: item.price,
         })),
         totalAmount: totalPrice,
       });

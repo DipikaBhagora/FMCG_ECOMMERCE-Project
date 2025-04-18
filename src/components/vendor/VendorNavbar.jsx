@@ -5,30 +5,6 @@ import hamburgermenu from "../../assets/images/hamburgermenu.png";
 export const VendorNavbar = ({ toggleSidebar }) => {
   const navigate = useNavigate();
 
-  //const handleLogout = () => {
-     // Clear Redux states
-    //  dispatch(clearCart());
-    //  dispatch(clearWishlist());
- 
-    //  //localStorage.removeItem("token"); // Remove JWT token
-    //  localStorage.removeItem("id"); // Remove user ID
-    //  localStorage.removeItem("role"); // Remove user details
-    //  localStorage.removeItem("cart");
-    //  localStorage.removeItem("wishlist");
-    //  sessionStorage.clear(); // Clear sessionStorage if used
-     
-    //  // Hard reload to reset persisted states and redirect
-    //  window.location.href = "/login";
-
-    // Clear authentication data
-    // localStorage.removeItem("token"); // Remove JWT token
-    // localStorage.removeItem("id"); // Remove user ID
-    // localStorage.removeItem("user"); // Remove user details
-    // sessionStorage.clear(); // Clear sessionStorage if used
-    // // Redirect to login page
-    // navigate("/login");
-  //};
-
   // Inline styles for the navbar container
   const navbarStyle = {
     position: "fixed",

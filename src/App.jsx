@@ -25,22 +25,21 @@ import { WishList } from './components/items/WishList'
 import { LogoutIcon } from './components/common/LogoutIcon'
 import { Orders } from './components/user/Orders'
 import { PlaceOrder } from './components/user/PlaceOrder'
-
+import { Inbox } from './components/vendor/Inbox'
+import { AdminSidebar } from './components/layouts/AdminSidebar' 
+import { Dashboard } from './components/Admin/Dashboard'
+import { ManageUsers } from './components/Admin/ManageUsers'
+import { ManageProducts } from './components/Admin/ManageProducts'
+import { ManageCategories } from './components/Admin/ManageCategories'
+import { ManageOrders } from './components/Admin/ManageOrders'
+import { EditUserProfile } from "./components/user/EditUserProfile";
+import { ViewOrderDetails } from './components/user/ViewOrderDetails'
 
 function App() {
 
   axios.defaults.baseURL = "http://localhost:3000";
 
    const location = useLocation();
-
-  // useEffect(() => {
-  //   if (location.pathname === "/login" || location.pathname === "/signup") {
-  //     document.body.className = ""; // Remove the unwanted class for login and signup
-  //   } else {
-  //     document.body.className =
-  //       "layout-fixed sidebar-expand-lg bg-body-tertiary sidebar-open app-loaded";
-  //   }
-  // }, [location.pathname]);
 
   return (
 <>
@@ -63,11 +62,13 @@ function App() {
     <Route path='/subcategory/:subCategoryId/products' element={<SubCategoryProducts/>}/>
     <Route path='/product/getproductbyid/:id' element={<ViewProductById/>}/>
     <Route path='/logout' element={<LogoutIcon/>}/>
+    <Route path='/editprofile' element={<EditUserProfile/>}/>
     
 
     <Route path='' element={<PrivateRoutes/>}>
     <Route path='/user' element={<UserSidebar/>}>
     <Route path='profile' element={<UserProfile/>} ></Route>
+    <Route path='editprofile' element={<EditUserProfile/>}/>
     <Route path='address' element={<UserAddress/>} />
     <Route path='updateaddress/:id' element={<UpdateUserAddress/>}/>
     <Route path='viewaddress' element={<ViewUserAddress/>}/>
@@ -75,6 +76,7 @@ function App() {
     <Route path='orders' element={<Orders/>}/>
     <Route path='cart' element={<Cart/>}/>
     <Route path='placeorder' element={<PlaceOrder/>}/>
+    <Route path='orderdetails/:id' element={<ViewOrderDetails/>}/>
 
     </Route>
 
@@ -84,7 +86,20 @@ function App() {
     <Route path='myproducts' element={<ViewMyProducts/>}></Route>
     <Route path='updateproduct/:id' element={<UpdateMyProduct/>}></Route>
     <Route path='profile' element={<UserProfile/>}/>
+    <Route path='editprofile' element={<EditUserProfile/>}/>
+    <Route path='inbox' element={<Inbox/>}/>
    
+    </Route>
+
+    <Route path="/admin" element={<AdminSidebar/>}>
+    <Route path='profile' element={<UserProfile/>}/>
+    <Route path='editprofile' element={<EditUserProfile/>}/>
+    <Route path='dashboard' element={<Dashboard/>}/>
+    <Route path='manageusers' element={<ManageUsers/>}/>
+    <Route path='manageproducts' element={<ManageProducts/>}/>
+    <Route path='managecategory' element={<ManageCategories/>}/>
+    <Route path='manageorders' element={<ManageOrders/>}/>
+
     </Route>
 
     </Route>

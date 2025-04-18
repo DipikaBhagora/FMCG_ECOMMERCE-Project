@@ -118,7 +118,7 @@ export const Signup = () => {
                 <option value="">Select Role</option>
                 <option value="67cbdf40c98099e54f8e961c">User</option>
                 <option value="67cbdf15c98099e54f8e961a">Vendor</option>
-                <option value="67cbdf04c98099e54f8e9618">Admin</option>
+                {/* <option value="67cbdf04c98099e54f8e9618">Admin</option> */}
               </select>
               <button
                 type="submit"

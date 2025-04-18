@@ -51,11 +51,6 @@ export const AdminNavbar = ({ toggleSidebar }) => {
               Home
             </Link>
           </li>
-          <li className="nav-item d-none d-md-block">
-            <a href="#" className="nav-link" style={navLinkStyle}>
-              Contact
-            </a>
-          </li>
         </ul>
 
         <ul className="navbar-nav ms-auto">
@@ -71,13 +66,13 @@ export const AdminNavbar = ({ toggleSidebar }) => {
             </a>
           </li>
           <li className="nav-item">
-            <button
-              className="btn btn-danger"
-              style={{ marginLeft: "1rem" }}
-            >
-              <Link to="/logout">
-              LOGOUT</Link>
-            </button>
+         <Link
+             to="/logout"
+             className="btn btn-danger"
+             style={{ marginLeft: "1rem" }}
+           >
+             LOGOUT
+           </Link>
           </li>
         </ul>
       </div>

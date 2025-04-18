@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { VendorNavbar } from "./VendorNavbar";
-import { FaBox, FaShoppingCart, FaUser, FaAngleLeft, FaAngleRight, FaHome, FaComment } from "react-icons/fa";
+import { FaBox, FaShoppingCart, FaUser, FaAngleLeft, FaAngleRight, FaHome, FaComment, FaSignOutAlt } from "react-icons/fa";
 
 export const VendorSidebar = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -66,15 +66,21 @@ export const VendorSidebar = () => {
                 {isSidebarOpen && "My Products"}
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
-                to="profile"
+                to="inbox"
                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700"
               >
                 <FaComment />
                 {isSidebarOpen && "Inbox"}
               </Link>
-            </li>
+            </li> */}
+            <li>
+                          <Link to="/logout" className="flex items-center px-4 py-3 hover:bg-red-600 transition w-full text-left">
+                          <FaSignOutAlt className="mr-3" />
+                          Logout
+                        </Link>
+                        </li>
           </ul>
         </nav>
       </aside>
