@@ -119,7 +119,7 @@ export const ManageCategories = () => {
             {categories.map((category, index) => (
               <tr key={category._id} className="border-t">
                 <td className="px-6 py-4">{index + 1}</td>
-                <td className="px-6 py-4 flex items-center mt-3 gap-2">
+                <td className="px-6 py-4 flex items-center justify-center gap-2">
                   {category.name}
 
                 </td>
@@ -128,7 +128,8 @@ export const ManageCategories = () => {
                     <div className="flex flex-col gap-2">
                       {category.subcategories.map((subcat) => (
                         //<div key={subcat._id} className="flex items-center gap-1 bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
-                        <div key={subcat._id} className="flex items-center justify-between bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium w-full max-w-[250px]">
+                        <div key={subcat._id} 
+                        className="flex items-center justify-between bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium w-fit">
                         {subcat.name}
                         <div className="flex items-center gap-1 ml-2">
                           <button
